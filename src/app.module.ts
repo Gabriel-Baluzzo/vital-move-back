@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { PerfilModule } from './perfil/perfil.module';
 
 @Module({
-  imports: [],
+  imports: [PerfilModule],
   controllers: [],
   providers: [],
 })

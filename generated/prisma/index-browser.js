@@ -120,7 +120,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.CredencialesScalarFieldEnum = {
+exports.Prisma.CredencialScalarFieldEnum = {
   id: 'id',
   email: 'email',
   password: 'password',
@@ -183,7 +183,7 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Credenciales: 'Credenciales',
+  Credencial: 'Credencial',
   Perfil: 'Perfil',
   Nivel: 'Nivel',
   Video: 'Video',

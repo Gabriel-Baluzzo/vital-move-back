@@ -14,7 +14,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Credenciales {
+model Credencial {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   password  String
@@ -34,8 +34,8 @@ model Perfil {
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt()
 
-  credenciales Credenciales @relation(fields: [credencialesId], references: [id])
-  nivel_actual Nivel        @relation(fields: [nivel_actual_id], references: [id])
+  credencial   Credencial @relation(fields: [credencialesId], references: [id])
+  nivel_actual Nivel      @relation(fields: [nivel_actual_id], references: [id])
 }
 
 model Nivel {
