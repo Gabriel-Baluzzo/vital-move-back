@@ -5,6 +5,9 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 import { PrismaService } from 'prisma/prisma.service';
+import { UserRepository } from './services/user.repository';
+import { HashingService } from './services/hash.service';
+import { TokenService } from './services/token.service';
 
 @Module({
   imports: [
@@ -15,6 +18,23 @@ import { PrismaService } from 'prisma/prisma.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, PrismaService],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    PrismaService,
+    {
+      provide: 'IUserRepository',
+      useClass: UserRepository,
+    },
+    {
+      provide: 'IHashingService',
+      useClass: HashingService,
+    },
+    {
+      provide: 'ITokenService',
+      useClass: TokenService,
+    },
+  ],
+  exports: [AuthService],
 })
 export class AuthModule {}
