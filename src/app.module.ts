@@ -3,6 +3,7 @@ import { PerfilModule } from './perfil/perfil.module';
 import { CredencialModule } from './credencial/credencial.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { NivelModule } from './nivel/nivel.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
     }),
     AuthModule,
+    NivelModule,
   ],
   controllers: [],
   providers: [],
