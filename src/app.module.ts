@@ -7,12 +7,13 @@ import { NivelModule } from './nivel/nivel.module';
 
 @Module({
   imports: [
+    AuthModule,
     PerfilModule,
     CredencialModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    AuthModule,
+
     NivelModule,
   ],
   controllers: [],

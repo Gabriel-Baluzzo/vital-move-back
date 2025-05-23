@@ -3,11 +3,11 @@ import { IsInt, IsOptional, IsString } from 'class-validator';
 export class CreatePerfilDto {
   @IsOptional()
   @IsString()
-  nombre: string;
+  nombre?: string;
 
   @IsOptional()
   @IsInt()
-  edad: number;
+  edad?: number;
 
   @IsInt()
   nivel_actual_id: number;
