@@ -9,9 +9,9 @@ export class TokenService implements ITokenService {
   generateToken(
     userId: number,
     email: string,
-    role: string,
+    rol: string,
   ): { access_token: string } {
-    const payload = { sub: userId, email, role };
+    const payload = { sub: userId, email, rol };
     return { access_token: this.jwtService.sign(payload) };
   }
 }

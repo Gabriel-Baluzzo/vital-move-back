@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 import { ValidatorService } from './services/validator.service';
+import { CredencialService } from 'src/credencial/credencial.service';
+import { UpdatePerfilDto } from './dto/update-perfil.dto';
 
 @Injectable()
 export class PerfilService {
   constructor(
     private readonly prisma: PrismaService,
-    private validatorService: ValidatorService,
+    private readonly validatorService: ValidatorService,
+    private readonly credencialService: CredencialService,
   ) {}
 
   findAll() {
@@ -21,12 +23,17 @@ export class PerfilService {
     return perfil;
   }
 
-  async update(id: number, data: Prisma.PerfilUpdateInput) {
+  async update(id: number, data: UpdatePerfilDto) {
     await this.validatorService.validar(id);
+    const { credencial, ...perfilData } = data;
 
+    if (credencial) {
+      await this.credencialService.update(id, credencial);
+    }
     return this.prisma.perfil.update({
       where: { credencialesId: id },
-      data,
+      data: perfilData,
+      include: { credencial: true },
     });
   }
 

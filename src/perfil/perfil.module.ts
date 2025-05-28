@@ -6,12 +6,14 @@ import { CaslModule } from 'src/casl/casl.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { ValidatorService } from './services/validator.service';
 import { PrismaService } from 'prisma/prisma.service';
+import { CredencialModule } from 'src/credencial/credencial.module';
 
 @Module({
   imports: [
     PrismaModule,
     CaslModule,
-    AuthModule, // Ya contiene JwtStrategy, AuthService, JwtModule.
+    AuthModule,
+    CredencialModule, // Ya contiene JwtStrategy, AuthService, JwtModule.
   ],
   controllers: [PerfilController],
   providers: [PerfilService, ValidatorService, PrismaService],

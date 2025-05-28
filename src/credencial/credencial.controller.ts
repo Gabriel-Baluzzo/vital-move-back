@@ -1,24 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CredencialService } from './credencial.service';
-import { CreateCredencialDto } from './dto/create-credencial.dto';
 import { UpdateCredencialDto } from './dto/update-credencial.dto';
 
 @Controller('credencial')
 export class CredencialController {
   constructor(private readonly credencialService: CredencialService) {}
-
-  @Post()
-  create(@Body() createCredencialDto: CreateCredencialDto) {
-    return this.credencialService.create(createCredencialDto);
-  }
 
   @Get()
   findAll() {

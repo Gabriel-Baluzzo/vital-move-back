@@ -6,6 +6,7 @@ import { Perfil } from '@prisma/client';
 @Injectable()
 export class AbilityFactory {
   createForUser(perfil: Perfil) {
+    console.log('Perfil recibido por CASL:', perfil);
     const { can, build } = new AbilityBuilder(createMongoAbility);
 
     if (perfil.rol === 'admin') {
