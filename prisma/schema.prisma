@@ -27,7 +27,7 @@ model Perfil {
   credencialesId    Int     @unique
   nombre            String?
   rol               String  @default("usuario")
-  edad              Int?
+  fecha_nacimiento  DateTime?
   nivel_actual_id   Int
   fecha_ultima_evaluacion DateTime @default(now())
   createdAt         DateTime @default(now())

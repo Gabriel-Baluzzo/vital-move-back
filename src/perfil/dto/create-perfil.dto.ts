@@ -1,13 +1,13 @@
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class CreatePerfilDto {
   @IsOptional()
   @IsString()
-  nombre?: string;
+  nombre: string;
 
   @IsOptional()
-  @IsInt()
-  edad?: number;
+  @IsDate()
+  fecha_nacimiento: Date;
 
   @IsInt()
   nivel_actual_id: number;
