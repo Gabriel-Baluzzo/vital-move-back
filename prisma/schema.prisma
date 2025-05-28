@@ -33,7 +33,7 @@ model Perfil {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt()
 
-  credencial      Credencial @relation(fields: [credencialesId], references: [id])
+  credencial      Credencial @relation(fields: [credencialesId], references: [id], onDelete: Cascade)
   nivel_actual      Nivel        @relation(fields: [nivel_actual_id], references: [id])
 }
 

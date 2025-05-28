@@ -3,7 +3,6 @@ import {
   Get,
   Body,
   Patch,
-  Param,
   Delete,
   UseGuards,
 } from '@nestjs/common';
@@ -13,6 +12,9 @@ import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { PoliciesGuard } from 'src/casl/policies.guard';
 import { Permission } from 'src/casl/decorators/permissions.decorator';
 import { Action } from 'src/casl/interfaces/action.enum';
+import { Request } from 'express';
+import { JwtPayload } from 'src/auth/jwt/jwt.payload';
+import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 
 @Controller('perfil')
 @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -25,21 +27,18 @@ export class PerfilController {
     return this.perfilService.findAll();
   }
 
-  @Get(':id')
-  @Permission(Action.Read, 'Perfil')
-  findOne(@Param('id') id: string) {
-    return this.perfilService.findOne(+id);
+  @Get('me')
+  getProfile(@CurrentUser() user: JwtPayload) {
+    return this.perfilService.findOne(user.sub);
   }
 
-  @Patch(':id')
-  @Permission(Action.Update, 'Perfil')
-  update(@Param('id') id: string, @Body() updatePerfilDto: UpdatePerfilDto) {
-    return this.perfilService.update(+id, updatePerfilDto);
+  @Patch('me')
+  update(@CurrentUser() user: JwtPayload, @Body() data: UpdatePerfilDto) {
+    return this.perfilService.update(user.sub, data);
   }
 
-  @Delete(':id')
-  @Permission(Action.Delete, 'Perfil')
-  remove(@Param('id') id: string) {
-    return this.perfilService.remove(+id);
+  @Delete('me')
+  remove(@CurrentUser() user: JwtPayload) {
+    return this.perfilService.remove(user.sub);
   }
 }
