@@ -12,7 +12,6 @@ import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { PoliciesGuard } from 'src/casl/policies.guard';
 import { Permission } from 'src/casl/decorators/permissions.decorator';
 import { Action } from 'src/casl/interfaces/action.enum';
-import { Request } from 'express';
 import { JwtPayload } from 'src/auth/jwt/jwt.payload';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 

@@ -1,11 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateNivelDto } from './dto/create-nivel.dto';
 import { UpdateNivelDto } from './dto/update-nivel.dto';
 import { PrismaService } from 'prisma/prisma.service';
+import { ValidatorNivelService } from './services/validator-zona.service';
 
 @Injectable()
 export class NivelService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private validadorNivel: ValidatorNivelService,
+  ) {}
 
   async create(createNivelDto: CreateNivelDto) {
     return this.prisma.nivel.create({
@@ -18,18 +22,12 @@ export class NivelService {
   }
 
   async findOne(id: number) {
-    const nivel = await this.prisma.nivel.findUnique({
-      where: { id },
-    });
-
-    if (!nivel) {
-      throw new NotFoundException(`Nivel con ID ${id} no encontrado`);
-    }
-
+    const nivel = await this.validadorNivel.validar(id);
     return nivel;
   }
 
   async update(id: number, updateNivelDto: UpdateNivelDto) {
+    await this.validadorNivel.validar(id);
     return this.prisma.nivel.update({
       where: { id },
       data: updateNivelDto,
@@ -37,6 +35,7 @@ export class NivelService {
   }
 
   async remove(id: number) {
+    await this.validadorNivel.validar(id);
     return this.prisma.nivel.delete({
       where: { id },
     });

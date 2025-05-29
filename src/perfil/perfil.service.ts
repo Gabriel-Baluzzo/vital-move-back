@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { ValidatorService } from './services/validator.service';
+import { ValidatorPerfilService } from './services/validator-perfil.service';
 import { CredencialService } from 'src/credencial/credencial.service';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
 
@@ -8,7 +8,7 @@ import { UpdatePerfilDto } from './dto/update-perfil.dto';
 export class PerfilService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly validatorService: ValidatorService,
+    private readonly validatorService: ValidatorPerfilService,
     private readonly credencialService: CredencialService,
   ) {}
 
