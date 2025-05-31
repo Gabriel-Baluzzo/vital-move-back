@@ -28,16 +28,16 @@ export class PerfilController {
 
   @Get('me')
   getProfile(@CurrentUser() user: JwtPayload) {
-    return this.perfilService.findOne(user.sub);
+    return this.perfilService.findOne(user.userId);
   }
 
   @Patch('me')
   update(@CurrentUser() user: JwtPayload, @Body() data: UpdatePerfilDto) {
-    return this.perfilService.update(user.sub, data);
+    return this.perfilService.update(user.userId, data);
   }
 
   @Delete('me')
   remove(@CurrentUser() user: JwtPayload) {
-    return this.perfilService.remove(user.sub);
+    return this.perfilService.remove(user.userId);
   }
 }

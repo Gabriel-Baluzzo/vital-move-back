@@ -4,5 +4,6 @@ export interface User {
   password: string;
   perfil: {
     rol: string;
+    nivel_actual_id: number;
   } | null;
 }

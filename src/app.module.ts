@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { NivelModule } from './nivel/nivel.module';
 import { ZonaMuscularModule } from './zona-muscular/zona-muscular.module';
+import { VideoModule } from './video/video.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ZonaMuscularModule } from './zona-muscular/zona-muscular.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    VideoModule,
   ],
   controllers: [],
   providers: [],

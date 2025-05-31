@@ -9,12 +9,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { CredencialModule } from 'src/credencial/credencial.module';
 
 @Module({
-  imports: [
-    PrismaModule,
-    CaslModule,
-    AuthModule,
-    CredencialModule, // Ya contiene JwtStrategy, AuthService, JwtModule.
-  ],
+  imports: [PrismaModule, CaslModule, AuthModule, CredencialModule],
   controllers: [PerfilController],
   providers: [PerfilService, ValidatorPerfilService, PrismaService],
 })

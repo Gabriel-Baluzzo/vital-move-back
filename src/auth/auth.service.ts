@@ -29,6 +29,7 @@ export class AuthService {
       user.id,
       user.email,
       user.perfil!.rol,
+      user.perfil!.nivel_actual_id,
     );
   }
 
@@ -41,11 +42,12 @@ export class AuthService {
     if (!isValid) {
       throw new UnauthorizedException('Password o email incorrecto');
     }
-    console.log('Perfil del usuario:', user.perfil);
+
     return this.tokenService.generateToken(
       user.id,
       user.email,
       user.perfil!.rol,
+      user.perfil!.nivel_actual_id,
     );
   }
 }

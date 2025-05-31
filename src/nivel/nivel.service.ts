@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateNivelDto } from './dto/create-nivel.dto';
 import { UpdateNivelDto } from './dto/update-nivel.dto';
 import { PrismaService } from 'prisma/prisma.service';
-import { ValidatorNivelService } from './services/validator-zona.service';
+import { ValidatorNivelService } from './services/validator-nivel.service';
 
 @Injectable()
 export class NivelService {
