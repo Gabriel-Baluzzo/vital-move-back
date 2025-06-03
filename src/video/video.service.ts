@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { PrismaService } from 'prisma/prisma.service';
@@ -6,7 +6,7 @@ import { ValidatorNivelService } from 'src/nivel/services/validator-nivel.servic
 import { ValidatorZonaService } from 'src/zona-muscular/services/validator-zona.service';
 import { ValidatorVideoService } from './services/validador-video.service';
 import { FilterVideoDto } from './dto/filter-video.dto';
-import { Prisma } from '@prisma/client';
+import { QueryFilterService } from './services/query-filter.service';
 
 @Injectable()
 export class VideoService {
@@ -15,6 +15,7 @@ export class VideoService {
     private nivelValidator: ValidatorNivelService,
     private zonaValidator: ValidatorZonaService,
     private videoValidator: ValidatorVideoService,
+    private query: QueryFilterService,
   ) {}
   async create(createVideoDto: CreateVideoDto) {
     const { zona_muscular_id, nivel_id } = createVideoDto;
@@ -31,37 +32,8 @@ export class VideoService {
   }
 
   findQuery(nivelUsuario: number, query: FilterVideoDto) {
-    const { nivel_id, zona_muscular_id, nombre, descripcion } = query;
-
-    let nivelFilter: Prisma.IntFilter;
-
-    if (nivel_id !== undefined) {
-      if (nivel_id > nivelUsuario) {
-        throw new BadRequestException('No alcanzaste esta dificultad.');
-      }
-      nivelFilter = { equals: nivel_id };
-    } else {
-      nivelFilter = { lte: nivelUsuario };
-    }
-
-    const where = {
-      nivel_id: nivelFilter,
-      ...(zona_muscular_id && { zona_muscular_id }),
-      ...(nombre && {
-        nombre: {
-          contains: nombre,
-          mode: 'insensitive' as const,
-        },
-      }),
-      ...(descripcion && {
-        descripcion: {
-          contains: descripcion,
-          mode: 'insensitive' as const,
-        },
-      }),
-    };
-
-    return this.prisma.video.findMany({ where });
+    const filter = this.query.queryFilter(nivelUsuario, query);
+    return this.prisma.video.findMany({ where: filter });
   }
 
   async findAll() {

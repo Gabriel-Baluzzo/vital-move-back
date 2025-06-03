@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { NivelModule } from './nivel/nivel.module';
 import { ZonaMuscularModule } from './zona-muscular/zona-muscular.module';
 import { VideoModule } from './video/video.module';
+import { ExamenModule } from './examen/examen.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { VideoModule } from './video/video.module';
       isGlobal: true,
     }),
     VideoModule,
+    ExamenModule,
   ],
   controllers: [],
   providers: [],
