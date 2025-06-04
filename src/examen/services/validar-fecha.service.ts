@@ -1,7 +1,8 @@
 import { PrismaService } from 'prisma/prisma.service';
 import { differenceInDays } from 'date-fns';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
+@Injectable()
 export class FechaValidator {
   constructor(private readonly prisma: PrismaService) {}
 
