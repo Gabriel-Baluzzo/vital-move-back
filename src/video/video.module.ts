@@ -10,7 +10,6 @@ import { ValidatorVideoService } from './services/validador-video.service';
 import { QueryFilterService } from './services/query-filter.service';
 import { ZonaMuscularService } from 'src/zona-muscular/zona-muscular.service';
 import { ZonaMuscular } from 'src/zona-muscular/entities/zona-muscular.entity';
-import { ValidatorZonaService } from 'src/zona-muscular/services/validator-zona.service';
 
 @Module({
   imports: [PrismaModule, AuthModule, CaslModule],
@@ -23,7 +22,6 @@ import { ValidatorZonaService } from 'src/zona-muscular/services/validator-zona.
     ZonaMuscularService,
     ValidatorVideoService,
     ZonaMuscular,
-    ValidatorZonaService,
   ],
   exports: [VideoService],
 })

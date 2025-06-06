@@ -11,7 +11,6 @@ import { ValidatorPerfilService } from 'src/perfil/services/validator-perfil.ser
 import { ValidatorVideoService } from 'src/video/services/validador-video.service';
 import { CredencialService } from 'src/credencial/credencial.service';
 import { ValidatorNivelService } from 'src/nivel/services/validator-nivel.service';
-import { ValidatorZonaService } from 'src/zona-muscular/services/validator-zona.service';
 import { QueryFilterService } from 'src/video/services/query-filter.service';
 import { CredencialModule } from 'src/credencial/credencial.module';
 import { HashingService } from 'src/auth/services/hash.service';
@@ -30,7 +29,6 @@ import { ZonaMuscular } from 'src/zona-muscular/entities/zona-muscular.entity';
     ValidatorVideoService,
     CredencialService,
     ValidatorNivelService,
-    ValidatorZonaService,
     QueryFilterService,
     HashingService,
     ZonaMuscularService,
