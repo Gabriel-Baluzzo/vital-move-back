@@ -7,6 +7,7 @@ import { NivelModule } from './nivel/nivel.module';
 import { ZonaMuscularModule } from './zona-muscular/zona-muscular.module';
 import { VideoModule } from './video/video.module';
 import { ExamenModule } from './examen/examen.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ExamenModule } from './examen/examen.module';
     }),
     VideoModule,
     ExamenModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [],

@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 import { Injectable } from '@nestjs/common';
 import { ResultadoExamenDto } from './dto/resultado-examen.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { ValidatorPerfilService } from 'src/perfil/services/validator-perfil.service';
 import { FechaValidator } from './services/validar-fecha.service';
+import { eNivel } from './enum/eNivel';
 
 @Injectable()
 export class ExamenService {
@@ -15,15 +17,15 @@ export class ExamenService {
   async examen(id: number, resultado: ResultadoExamenDto) {
     await this.perfilValidator.validar(id);
     await this.fechaValidator.validar(id);
-    const puntos = resultado.puntos;
+    const puntaje = resultado.puntos;
     let nuevoNivelId: number;
 
-    if (puntos < 4) {
-      nuevoNivelId = 1;
-    } else if (puntos < 7) {
-      nuevoNivelId = 2;
+    if (puntaje < eNivel.MINIMO_REQUERIDO_INTERMEDIO) {
+      nuevoNivelId = eNivel.PRINCIPIANTE;
+    } else if (puntaje < eNivel.MINIMO_REQUERIDO_AVANZADO) {
+      nuevoNivelId = eNivel.INTERMEDIO;
     } else {
-      nuevoNivelId = 3;
+      nuevoNivelId = eNivel.AVANZADO;
     }
 
     return this.prisma.perfil.update({

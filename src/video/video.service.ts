@@ -3,24 +3,24 @@ import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { ValidatorNivelService } from 'src/nivel/services/validator-nivel.service';
-import { ValidatorZonaService } from 'src/zona-muscular/services/validator-zona.service';
 import { ValidatorVideoService } from './services/validador-video.service';
 import { FilterVideoDto } from './dto/filter-video.dto';
 import { QueryFilterService } from './services/query-filter.service';
+import { ZonaMuscularService } from 'src/zona-muscular/zona-muscular.service';
 
 @Injectable()
 export class VideoService {
   constructor(
     private readonly prisma: PrismaService,
     private nivelValidator: ValidatorNivelService,
-    private zonaValidator: ValidatorZonaService,
+    private zonaValidator: ZonaMuscularService,
     private videoValidator: ValidatorVideoService,
     private query: QueryFilterService,
   ) {}
   async create(createVideoDto: CreateVideoDto) {
     const { zona_muscular_id, nivel_id } = createVideoDto;
 
-    await this.zonaValidator.validar(zona_muscular_id);
+    await this.zonaValidator.findOne(zona_muscular_id);
 
     await this.nivelValidator.validar(nivel_id);
 
@@ -52,7 +52,7 @@ export class VideoService {
       await this.nivelValidator.validar(nivel_id);
     }
     if (zona_muscular_id !== undefined) {
-      await this.zonaValidator.validar(zona_muscular_id);
+      await this.zonaValidator.findOne(zona_muscular_id);
     }
 
     return this.prisma.video.update({

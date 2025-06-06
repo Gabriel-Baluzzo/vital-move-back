@@ -1,16 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
+import { ZonaMuscular } from '@prisma/client';
 
 @Injectable()
 export class ValidatorZonaService {
-  constructor(private readonly prisma: PrismaService) {}
-  async validar(id: number) {
-    const zona = await this.prisma.zonaMuscular.findUnique({
-      where: { id },
-    });
+  constructor() {}
+  validar(zona: ZonaMuscular | null) {
     if (!zona) {
-      throw new NotFoundException(`Zona_Muscular con id ${id} no encontrada`);
+      throw new NotFoundException(`La Zona_Muscular buscada no existe`);
     }
-    return zona;
   }
 }

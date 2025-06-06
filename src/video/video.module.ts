@@ -6,9 +6,11 @@ import { AuthModule } from 'src/auth/auth.module';
 import { CaslModule } from 'src/casl/casl.module';
 import { PrismaService } from 'prisma/prisma.service';
 import { ValidatorNivelService } from 'src/nivel/services/validator-nivel.service';
-import { ValidatorZonaService } from 'src/zona-muscular/services/validator-zona.service';
 import { ValidatorVideoService } from './services/validador-video.service';
 import { QueryFilterService } from './services/query-filter.service';
+import { ZonaMuscularService } from 'src/zona-muscular/zona-muscular.service';
+import { ZonaMuscular } from 'src/zona-muscular/entities/zona-muscular.entity';
+import { ValidatorZonaService } from 'src/zona-muscular/services/validator-zona.service';
 
 @Module({
   imports: [PrismaModule, AuthModule, CaslModule],
@@ -18,8 +20,11 @@ import { QueryFilterService } from './services/query-filter.service';
     VideoService,
     PrismaService,
     ValidatorNivelService,
-    ValidatorZonaService,
+    ZonaMuscularService,
     ValidatorVideoService,
+    ZonaMuscular,
+    ValidatorZonaService,
   ],
+  exports: [VideoService],
 })
 export class VideoModule {}
