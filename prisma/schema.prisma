@@ -23,18 +23,17 @@ model Credencial {
 }
 
 model Perfil {
-  id                Int     @id @default(autoincrement())
-  credencialesId    Int     @unique
-  nombre            String?
-  rol               String  @default("usuario")
-  fecha_nacimiento  DateTime?
-  nivel_actual_id   Int
+  id                      Int       @id @default(autoincrement())
+  credencialesId          Int       @unique
+  nombre                  String?
+  rol                     String    @default("usuario")
+  fecha_nacimiento        DateTime?
+  nivel_actual_id         Int       @default(1) // <--- ADD THIS LINE
   fecha_ultima_evaluacion DateTime?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt()
-
-  credencial      Credencial @relation(fields: [credencialesId], references: [id], onDelete: Cascade)
-  nivel_actual      Nivel        @relation(fields: [nivel_actual_id], references: [id])
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt()
+  credencial   Credencial @relation(fields: [credencialesId], references: [id], onDelete: Cascade)
+  nivel_actual Nivel      @relation(fields: [nivel_actual_id], references: [id])
 }
 
 model Nivel {

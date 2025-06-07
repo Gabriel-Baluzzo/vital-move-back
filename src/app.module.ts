@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { PerfilModule } from './perfil/perfil.module';
 import { CredencialModule } from './credencial/credencial.module';

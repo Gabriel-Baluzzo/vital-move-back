@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { UpdateCredencialDto } from './dto/update-credencial.dto';
 import { Prisma } from '@prisma/client';

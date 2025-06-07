@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CredencialService } from './credencial.service';
 import { UpdateCredencialDto } from './dto/update-credencial.dto';
