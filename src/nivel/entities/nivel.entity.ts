@@ -1,8 +1,9 @@
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateNivelDto } from '../dto/create-nivel.dto';
 import { UpdateNivelDto } from '../dto/update-nivel.dto';
-import { NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
+@Injectable()
 export class Nivel {
   constructor(private readonly prisma: PrismaService) {}
 

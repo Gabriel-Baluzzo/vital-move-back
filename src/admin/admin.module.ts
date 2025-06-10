@@ -10,12 +10,14 @@ import { PrismaService } from 'prisma/prisma.service';
 import { ValidatorPerfilService } from 'src/perfil/services/validator-perfil.service';
 import { ValidatorVideoService } from 'src/video/services/validador-video.service';
 import { CredencialService } from 'src/credencial/credencial.service';
-import { ValidatorNivelService } from 'src/nivel/services/validator-nivel.service';
 import { QueryFilterService } from 'src/video/services/query-filter.service';
 import { CredencialModule } from 'src/credencial/credencial.module';
 import { HashingService } from 'src/auth/services/hash.service';
 import { ZonaMuscularService } from 'src/zona-muscular/zona-muscular.service';
 import { ZonaMuscular } from 'src/zona-muscular/entities/zona-muscular.entity';
+import { NivelService } from 'src/nivel/nivel.service';
+import { Video } from 'src/video/entities/video.entity';
+import { Nivel } from 'src/nivel/entities/nivel.entity';
 
 @Module({
   imports: [CaslModule, AuthModule, CredencialModule],
@@ -28,11 +30,13 @@ import { ZonaMuscular } from 'src/zona-muscular/entities/zona-muscular.entity';
     ValidatorPerfilService,
     ValidatorVideoService,
     CredencialService,
-    ValidatorNivelService,
+    NivelService,
     QueryFilterService,
     HashingService,
     ZonaMuscularService,
     ZonaMuscular,
+    Video,
+    Nivel,
   ],
 })
 export class AdminModule {}
