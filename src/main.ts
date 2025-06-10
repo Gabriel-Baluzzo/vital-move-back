@@ -5,6 +5,11 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api/v1');
+  app.enableCors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Lee del .env (http://localhost:3000)
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos HTTP que permites
+    credentials: true, // Importante: Permite el envío de cookies/encabezados de autorización
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -12,7 +17,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap().catch((err) => {
   console.error('❌ Error during bootstrap:', err);
