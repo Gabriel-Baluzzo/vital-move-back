@@ -8,6 +8,7 @@ import { Perfil } from 'src/perfil/entities/perfil.entity';
 import { CredencialService } from 'src/credencial/credencial.service';
 import { HashingService } from 'src/auth/services/hash.service';
 import { Examen } from './entities/examen.entity';
+import { Credencial } from 'src/credencial/entities/credencial.entity';
 
 @Module({
   imports: [PrismaModule, AuthModule],
@@ -19,6 +20,7 @@ import { Examen } from './entities/examen.entity';
     Perfil,
     CredencialService,
     HashingService,
+    Credencial,
   ],
 })
 export class ExamenModule {}

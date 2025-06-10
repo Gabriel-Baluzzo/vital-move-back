@@ -3,14 +3,10 @@ import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { FilterVideoDto } from './dto/filter-video.dto';
 import { Video } from './entities/video.entity';
-import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class VideoService {
-  constructor(
-    private video: Video,
-    private prisma: PrismaService,
-  ) {}
+  constructor(private video: Video) {}
   async create(createVideoDto: CreateVideoDto) {
     return this.video.create(createVideoDto);
   }

@@ -9,34 +9,25 @@ import {
 import { PerfilService } from './perfil.service';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
-import { PoliciesGuard } from 'src/casl/policies.guard';
-import { Permission } from 'src/casl/decorators/permissions.decorator';
-import { Action } from 'src/casl/interfaces/action.enum';
 import { JwtPayload } from 'src/auth/jwt/jwt.payload';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 
 @Controller('perfil')
-@UseGuards(JwtAuthGuard, PoliciesGuard)
+@UseGuards(JwtAuthGuard)
 export class PerfilController {
   constructor(private readonly perfilService: PerfilService) {}
 
   @Get()
-  @Permission(Action.Read, 'Perfil')
-  findAll() {
-    return this.perfilService.findAll();
-  }
-
-  @Get('me')
   getProfile(@CurrentUser() user: JwtPayload) {
     return this.perfilService.findOne(user.userId);
   }
 
-  @Patch('me')
+  @Patch()
   update(@CurrentUser() user: JwtPayload, @Body() data: UpdatePerfilDto) {
     return this.perfilService.update(user.userId, data);
   }
 
-  @Delete('me')
+  @Delete()
   remove(@CurrentUser() user: JwtPayload) {
     return this.perfilService.remove(user.userId);
   }
