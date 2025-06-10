@@ -3,12 +3,22 @@ import { ExamenService } from './examen.service';
 import { ExamenController } from './examen.controller';
 import { PrismaModule } from 'prisma/prisma.module';
 import { AuthModule } from 'src/auth/auth.module';
-import { ValidatorPerfilService } from 'src/perfil/services/validator-perfil.service';
-import { FechaValidator } from './services/validar-fecha.service';
+import { PerfilService } from 'src/perfil/perfil.service';
+import { Perfil } from 'src/perfil/entities/perfil.entity';
+import { CredencialService } from 'src/credencial/credencial.service';
+import { HashingService } from 'src/auth/services/hash.service';
+import { Examen } from './entities/examen.entity';
 
 @Module({
   imports: [PrismaModule, AuthModule],
   controllers: [ExamenController],
-  providers: [ExamenService, ValidatorPerfilService, FechaValidator],
+  providers: [
+    ExamenService,
+    Examen,
+    PerfilService,
+    Perfil,
+    CredencialService,
+    HashingService,
+  ],
 })
 export class ExamenModule {}

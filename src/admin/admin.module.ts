@@ -7,10 +7,7 @@ import { PerfilService } from 'src/perfil/perfil.service';
 import { VideoService } from 'src/video/video.service';
 import { AdminVideoController } from './admin-video.controller';
 import { PrismaService } from 'prisma/prisma.service';
-import { ValidatorPerfilService } from 'src/perfil/services/validator-perfil.service';
-import { ValidatorVideoService } from 'src/video/services/validador-video.service';
 import { CredencialService } from 'src/credencial/credencial.service';
-import { QueryFilterService } from 'src/video/services/query-filter.service';
 import { CredencialModule } from 'src/credencial/credencial.module';
 import { HashingService } from 'src/auth/services/hash.service';
 import { ZonaMuscularService } from 'src/zona-muscular/zona-muscular.service';
@@ -18,6 +15,7 @@ import { ZonaMuscular } from 'src/zona-muscular/entities/zona-muscular.entity';
 import { NivelService } from 'src/nivel/nivel.service';
 import { Video } from 'src/video/entities/video.entity';
 import { Nivel } from 'src/nivel/entities/nivel.entity';
+import { Perfil } from 'src/perfil/entities/perfil.entity';
 
 @Module({
   imports: [CaslModule, AuthModule, CredencialModule],
@@ -27,11 +25,9 @@ import { Nivel } from 'src/nivel/entities/nivel.entity';
     PerfilService,
     VideoService,
     PrismaService,
-    ValidatorPerfilService,
-    ValidatorVideoService,
+    Perfil,
     CredencialService,
     NivelService,
-    QueryFilterService,
     HashingService,
     ZonaMuscularService,
     ZonaMuscular,

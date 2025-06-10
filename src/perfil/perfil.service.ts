@@ -1,44 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
-import { ValidatorPerfilService } from './services/validator-perfil.service';
-import { CredencialService } from 'src/credencial/credencial.service';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
+import { Perfil } from './entities/perfil.entity';
 
 @Injectable()
 export class PerfilService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly validatorService: ValidatorPerfilService,
-    private readonly credencialService: CredencialService,
-  ) {}
+  constructor(private perfil: Perfil) {}
 
-  findAll() {
-    return this.prisma.perfil.findMany({
-      include: { credencial: true, nivel_actual: true },
-    });
+  async findAll() {
+    return this.perfil.findMany();
   }
 
   async findOne(id: number) {
-    const perfil = await this.validatorService.validar(id);
-    return perfil;
+    return this.perfil.findOrThrow(id);
   }
 
   async update(id: number, data: UpdatePerfilDto) {
-    await this.validatorService.validar(id);
-    const { credencial, ...perfilData } = data;
-
-    if (credencial) {
-      await this.credencialService.update(id, credencial);
-    }
-    return this.prisma.perfil.update({
-      where: { credencialesId: id },
-      data: perfilData,
-      include: { credencial: true },
-    });
+    return this.perfil.update(id, data);
   }
 
   async remove(id: number) {
-    await this.validatorService.validar(id);
-    return this.prisma.perfil.delete({ where: { credencialesId: id } });
+    return this.perfil.delete(id);
   }
 }

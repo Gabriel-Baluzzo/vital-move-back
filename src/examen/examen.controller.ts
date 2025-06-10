@@ -15,6 +15,6 @@ export class ExamenController {
     @Body() resultado: ResultadoExamenDto,
     @CurrentUser() user: JwtPayload,
   ) {
-    return this.examenService.examen(user.userId, resultado);
+    return this.examenService.update(user.userId, resultado);
   }
 }

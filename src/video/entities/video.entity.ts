@@ -34,7 +34,6 @@ export class Video {
   }
 
   async findQuery(nivelUsuario: number, query: FilterVideoDto) {
-    //const filter = this.query.queryFilter(nivelUsuario, query);
     const { nivel_id, zona_muscular_id, nombre, descripcion } = query;
 
     let nivelFilter: Prisma.IntFilter;
