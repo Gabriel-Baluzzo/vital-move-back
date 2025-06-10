@@ -7,7 +7,7 @@ export class CredencialController {
   constructor(private readonly credencialService: CredencialService) {}
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateCredencialDto: UpdateCredencialDto,
   ) {

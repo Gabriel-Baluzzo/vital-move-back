@@ -22,15 +22,14 @@ export class Video {
   async create(createVideoDto: CreateVideoDto) {
     const { zona_muscular_id, nivel_id } = createVideoDto;
 
-    await this.zona.findOne(zona_muscular_id);
+    await Promise.all([
+      this.zona.findOne(zona_muscular_id),
+      this.nivel.findOne(nivel_id),
+    ]);
 
-    await this.nivel.findOne(nivel_id);
-
-    const nuevoVideo = await this.prisma.video.create({
+    return this.prisma.video.create({
       data: createVideoDto,
     });
-
-    return nuevoVideo;
   }
 
   async findQuery(nivelUsuario: number, query: FilterVideoDto) {

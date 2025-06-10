@@ -23,25 +23,25 @@ export class ZonaMuscularController {
 
   @Post()
   @Permission(Action.Create, 'Zona_Muscular')
-  create(@Body() createZonaMuscularDto: CreateZonaMuscularDto) {
+  async create(@Body() createZonaMuscularDto: CreateZonaMuscularDto) {
     return this.zonaMuscularService.create(createZonaMuscularDto);
   }
 
   @Get()
   @Permission(Action.Read, 'Zona_Muscular')
-  findAll() {
+  async findAll() {
     return this.zonaMuscularService.findAll();
   }
 
   @Get(':id')
   @Permission(Action.Read, 'Zona_Muscular')
-  findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number) {
     return this.zonaMuscularService.findOne(id);
   }
 
   @Patch(':id')
   @Permission(Action.Update, 'Zona_Muscular')
-  update(
+  async update(
     @Param('id') id: number,
     @Body() updateZonaMuscularDto: UpdateZonaMuscularDto,
   ) {
@@ -50,7 +50,7 @@ export class ZonaMuscularController {
 
   @Delete(':id')
   @Permission(Action.Delete, 'Zona_Muscular')
-  remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number) {
     return this.zonaMuscularService.remove(id);
   }
 }

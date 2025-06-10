@@ -21,25 +21,28 @@ export class AdminPerfilController {
 
   @Get()
   @Permission(Action.Read, 'Perfil')
-  findAll() {
+  async findAll() {
     return this.perfilService.findAll();
   }
 
   @Get(':id')
   @Permission(Action.Read, 'Perfil')
-  findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number) {
     return this.perfilService.findOne(id);
   }
 
   @Patch(':id')
   @Permission(Action.Update, 'Perfil')
-  update(@Param('id') id: number, @Body() updatePerfilDto: UpdatePerfilDto) {
+  async update(
+    @Param('id') id: number,
+    @Body() updatePerfilDto: UpdatePerfilDto,
+  ) {
     return this.perfilService.update(id, updatePerfilDto);
   }
 
   @Delete(':id')
   @Permission(Action.Delete, 'Perfil')
-  remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number) {
     return this.perfilService.remove(id);
   }
 }

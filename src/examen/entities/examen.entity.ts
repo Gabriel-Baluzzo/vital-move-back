@@ -31,8 +31,7 @@ export class Examen {
   }
 
   async update(id: number, resultado: ResultadoExamenDto) {
-    await this.perfil.findOne(id);
-    await this.validar(id);
+    await Promise.all([this.perfil.findOne(id), this.validar(id)]);
     const puntaje = resultado.puntos;
     let nuevoNivelId: number;
 

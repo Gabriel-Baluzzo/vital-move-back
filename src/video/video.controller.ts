@@ -1,18 +1,20 @@
 import { Controller, Get, UseGuards, Query } from '@nestjs/common';
 import { VideoService } from './video.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
-import { PoliciesGuard } from 'src/casl/policies.guard';
 import { FilterVideoDto } from './dto/filter-video.dto';
 import { CurrentUser } from 'src/common/decorator/current-user.decorator';
 import { JwtPayload } from 'src/auth/jwt/jwt.payload';
 
 @Controller('video')
-@UseGuards(JwtAuthGuard, PoliciesGuard)
+@UseGuards(JwtAuthGuard)
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
   @Get()
-  findQuery(@CurrentUser() user: JwtPayload, @Query() query: FilterVideoDto) {
+  async findQuery(
+    @CurrentUser() user: JwtPayload,
+    @Query() query: FilterVideoDto,
+  ) {
     return this.videoService.findQuery(user.nivel_actual_id, query);
   }
 }

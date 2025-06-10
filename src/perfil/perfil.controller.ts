@@ -18,17 +18,17 @@ export class PerfilController {
   constructor(private readonly perfilService: PerfilService) {}
 
   @Get()
-  getProfile(@CurrentUser() user: JwtPayload) {
+  async getProfile(@CurrentUser() user: JwtPayload) {
     return this.perfilService.findOne(user.userId);
   }
 
   @Patch()
-  update(@CurrentUser() user: JwtPayload, @Body() data: UpdatePerfilDto) {
+  async update(@CurrentUser() user: JwtPayload, @Body() data: UpdatePerfilDto) {
     return this.perfilService.update(user.userId, data);
   }
 
   @Delete()
-  remove(@CurrentUser() user: JwtPayload) {
+  async remove(@CurrentUser() user: JwtPayload) {
     return this.perfilService.remove(user.userId);
   }
 }

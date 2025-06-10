@@ -7,13 +7,13 @@ export class UserRepository implements IUserRepository {
   constructor(private prisma: PrismaService) {}
 
   async createUser(email: string, password: string) {
-    return this.prisma.credencial.create({
+    return await this.prisma.credencial.create({
       data: {
         email,
         password,
         perfil: {
           create: {
-            nivel_actual: { connect: { id: 1 } },
+            nivel_actual_id: 1,
           },
         },
       },
@@ -22,7 +22,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async findByEmail(email: string) {
-    return this.prisma.credencial.findUnique({
+    return await this.prisma.credencial.findUnique({
       where: { email },
       include: { perfil: true },
     });

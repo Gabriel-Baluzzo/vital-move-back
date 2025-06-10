@@ -7,23 +7,23 @@ import { ZonaMuscular } from './entities/zona-muscular.entity';
 export class ZonaMuscularService {
   constructor(private zona: ZonaMuscular) {}
 
-  create(createZonaMuscularDto: CreateZonaMuscularDto) {
+  async create(createZonaMuscularDto: CreateZonaMuscularDto) {
     return this.zona.create(createZonaMuscularDto);
   }
 
-  findAll() {
+  async findAll() {
     return this.zona.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.zona.findOrThrow(id);
   }
 
-  update(id: number, updateZonaMuscularDto: UpdateZonaMuscularDto) {
+  async update(id: number, updateZonaMuscularDto: UpdateZonaMuscularDto) {
     return this.zona.update(id, updateZonaMuscularDto);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.zona.delete(id);
   }
 }

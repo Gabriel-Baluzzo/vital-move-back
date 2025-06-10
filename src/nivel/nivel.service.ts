@@ -7,23 +7,23 @@ import { Nivel } from './entities/nivel.entity';
 export class NivelService {
   constructor(private nivel: Nivel) {}
 
-  create(createNivelDto: CreateNivelDto) {
+  async create(createNivelDto: CreateNivelDto) {
     return this.nivel.create(createNivelDto);
   }
 
-  findAll() {
+  async findAll() {
     return this.nivel.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.nivel.findOrThrow(id);
   }
 
-  update(id: number, updateNivelDto: UpdateNivelDto) {
+  async update(id: number, updateNivelDto: UpdateNivelDto) {
     return this.nivel.update(id, updateNivelDto);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.nivel.delete(id);
   }
 }

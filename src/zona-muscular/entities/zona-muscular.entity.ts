@@ -6,7 +6,7 @@ import { UpdateZonaMuscularDto } from '../dto/update-zona-muscular.dto';
 export class ZonaMuscular {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createZonaMuscularDto: CreateZonaMuscularDto) {
+  async create(createZonaMuscularDto: CreateZonaMuscularDto) {
     return this.prisma.zonaMuscular.create({ data: createZonaMuscularDto });
   }
 
@@ -22,7 +22,7 @@ export class ZonaMuscular {
     return zona;
   }
 
-  findMany() {
+  async findMany() {
     return this.prisma.zonaMuscular.findMany();
   }
 

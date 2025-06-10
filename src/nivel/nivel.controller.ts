@@ -23,31 +23,34 @@ export class NivelController {
 
   @Post()
   @Permission(Action.Create, 'Nivel')
-  create(@Body() createNivelDto: CreateNivelDto) {
+  async create(@Body() createNivelDto: CreateNivelDto) {
     return this.nivelService.create(createNivelDto);
   }
 
   @Get()
   @Permission(Action.Read, 'Nivel')
-  findAll() {
+  async findAll() {
     return this.nivelService.findAll();
   }
 
   @Get(':id')
   @Permission(Action.Read, 'Nivel')
-  findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number) {
     return this.nivelService.findOne(id);
   }
 
   @Patch(':id')
   @Permission(Action.Update, 'Nivel')
-  update(@Param('id') id: number, @Body() updateNivelDto: UpdateNivelDto) {
+  async update(
+    @Param('id') id: number,
+    @Body() updateNivelDto: UpdateNivelDto,
+  ) {
     return this.nivelService.update(id, updateNivelDto);
   }
 
   @Delete(':id')
   @Permission(Action.Delete, 'Nivel')
-  remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number) {
     return this.nivelService.remove(id);
   }
 }

@@ -11,7 +11,7 @@ export class ExamenController {
   constructor(private readonly examenService: ExamenService) {}
 
   @Post()
-  examen(
+  async examen(
     @Body() resultado: ResultadoExamenDto,
     @CurrentUser() user: JwtPayload,
   ) {

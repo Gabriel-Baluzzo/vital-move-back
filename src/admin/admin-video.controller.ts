@@ -23,31 +23,34 @@ export class AdminVideoController {
 
   @Post()
   @Permission(Action.Create, 'Video')
-  create(@Body() createVideoDto: CreateVideoDto) {
+  async create(@Body() createVideoDto: CreateVideoDto) {
     return this.videoService.create(createVideoDto);
   }
 
   @Get()
   @Permission(Action.Read, 'Video')
-  findAll() {
+  async findAll() {
     return this.videoService.findAll();
   }
 
   @Get(':id')
   @Permission(Action.Read, 'Video')
-  findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number) {
     return this.videoService.findOne(id);
   }
 
   @Patch(':id')
   @Permission(Action.Update, 'Video')
-  update(@Param('id') id: string, @Body() updateVideoDto: UpdateVideoDto) {
-    return this.videoService.update(+id, updateVideoDto);
+  async update(
+    @Param('id') id: number,
+    @Body() updateVideoDto: UpdateVideoDto,
+  ) {
+    return this.videoService.update(id, updateVideoDto);
   }
 
   @Delete(':id')
   @Permission(Action.Delete, 'Video')
-  remove(@Param('id') id: string) {
-    return this.videoService.remove(+id);
+  async remove(@Param('id') id: number) {
+    return this.videoService.remove(id);
   }
 }
