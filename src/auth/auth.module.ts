@@ -5,13 +5,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt/jwt.strategy';
-import { PrismaService } from 'prisma/prisma.service';
-import { UserRepository } from './services/user.repository';
-import { HashingService } from './services/hash.service';
-import { TokenService } from './services/token.service';
+import { Auth } from './entities/auth.entity';
+import { Credencial } from 'src/credencial/entities/credencial.entity';
+import { CredencialService } from 'src/credencial/credencial.service';
+import { PrismaModule } from 'prisma/prisma.module';
 
 @Module({
   imports: [
+    PrismaModule,
     ConfigModule,
     PassportModule,
     JwtModule.registerAsync({
@@ -25,23 +26,7 @@ import { TokenService } from './services/token.service';
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    JwtStrategy,
-    PrismaService,
-    {
-      provide: 'IUserRepository',
-      useClass: UserRepository,
-    },
-    {
-      provide: 'IHashingService',
-      useClass: HashingService,
-    },
-    {
-      provide: 'ITokenService',
-      useClass: TokenService,
-    },
-  ],
-  exports: [AuthService, JwtStrategy],
+  providers: [Auth, Credencial, CredencialService, AuthService, JwtStrategy],
+  exports: [AuthService, JwtStrategy, Auth],
 })
 export class AuthModule {}

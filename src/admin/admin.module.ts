@@ -7,7 +7,6 @@ import { PerfilService } from 'src/perfil/perfil.service';
 import { VideoService } from 'src/video/video.service';
 import { AdminVideoController } from './admin-video.controller';
 import { CredencialService } from 'src/credencial/credencial.service';
-import { HashingService } from 'src/auth/services/hash.service';
 import { ZonaMuscularService } from 'src/zona-muscular/zona-muscular.service';
 import { ZonaMuscular } from 'src/zona-muscular/entities/zona-muscular.entity';
 import { NivelService } from 'src/nivel/nivel.service';
@@ -28,7 +27,6 @@ import { PrismaModule } from 'prisma/prisma.module';
     CredencialService,
     Credencial,
     NivelService,
-    HashingService,
     ZonaMuscularService,
     ZonaMuscular,
     Video,

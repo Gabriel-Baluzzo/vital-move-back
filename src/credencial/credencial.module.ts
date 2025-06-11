@@ -3,13 +3,12 @@ import { CredencialService } from './credencial.service';
 import { CredencialController } from './credencial.controller';
 import { PrismaModule } from 'prisma/prisma.module';
 import { AuthModule } from 'src/auth/auth.module';
-import { HashingService } from 'src/auth/services/hash.service';
 import { Credencial } from './entities/credencial.entity';
 
 @Module({
   imports: [PrismaModule, AuthModule],
   controllers: [CredencialController],
-  providers: [CredencialService, HashingService, Credencial],
-  exports: [CredencialService],
+  providers: [CredencialService, Credencial],
+  exports: [CredencialService, Credencial],
 })
 export class CredencialModule {}

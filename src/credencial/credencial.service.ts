@@ -9,4 +9,12 @@ export class CredencialService {
   async update(id: number, dto: UpdateCredencialDto) {
     return this.credencial.update(id, dto);
   }
+
+  async findByEmail(email: string) {
+    return this.credencial.findByEmail(email);
+  }
+
+  async create(email: string, password: string) {
+    return this.credencial.create(email, password);
+  }
 }

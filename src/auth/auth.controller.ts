@@ -4,10 +4,14 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { Request } from 'express';
 import { JwtAuthGuard } from './jwt/jwt.guard';
+import { Auth } from './entities/auth.entity';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private auth: Auth,
+  ) {}
 
   @Post('register')
   register(@Body() dto: RegisterDto) {

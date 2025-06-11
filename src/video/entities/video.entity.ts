@@ -4,7 +4,7 @@ import { FilterVideoDto } from '../dto/filter-video.dto';
 import { CreateVideoDto } from '../dto/create-video.dto';
 import { ZonaMuscularService } from 'src/zona-muscular/zona-muscular.service';
 import { NivelService } from 'src/nivel/nivel.service';
-import { Prisma } from '@prisma/client';
+import { Prisma, Video as VideoP } from '@prisma/client';
 import {
   BadRequestException,
   Injectable,
@@ -19,7 +19,7 @@ export class Video {
     private nivel: NivelService,
   ) {}
 
-  async create(createVideoDto: CreateVideoDto) {
+  async create(createVideoDto: CreateVideoDto): Promise<VideoP> {
     const { zona_muscular_id, nivel_id } = createVideoDto;
 
     await Promise.all([
@@ -32,7 +32,10 @@ export class Video {
     });
   }
 
-  async findQuery(nivelUsuario: number, query: FilterVideoDto) {
+  async findQuery(
+    nivelUsuario: number,
+    query: FilterVideoDto,
+  ): Promise<VideoP[]> {
     const { nivel_id, zona_muscular_id, nombre, descripcion } = query;
 
     let nivelFilter: Prisma.IntFilter;
@@ -66,11 +69,11 @@ export class Video {
     return this.prisma.video.findMany({ where });
   }
 
-  async findMany() {
+  async findMany(): Promise<VideoP[]> {
     return this.prisma.video.findMany();
   }
 
-  async findOrThrow(id: number) {
+  async findOrThrow(id: number): Promise<VideoP> {
     const video = await this.prisma.video.findUnique({
       where: { id },
     });
@@ -80,7 +83,7 @@ export class Video {
     return video;
   }
 
-  async update(id: number, updateVideoDto: UpdateVideoDto) {
+  async update(id: number, updateVideoDto: UpdateVideoDto): Promise<VideoP> {
     await this.findOrThrow(id);
     const { nivel_id, zona_muscular_id } = updateVideoDto;
     if (nivel_id !== undefined) {
@@ -96,7 +99,7 @@ export class Video {
     });
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<VideoP> {
     await this.findOrThrow(id);
     return this.prisma.video.delete({ where: { id } });
   }
