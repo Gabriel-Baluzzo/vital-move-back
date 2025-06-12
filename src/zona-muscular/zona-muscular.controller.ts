@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { PoliciesGuard } from 'src/casl/policies.guard';
 import { Permission } from 'src/casl/decorators/permissions.decorator';
 import { Action } from 'src/casl/interfaces/action.enum';
+import { ZonaMuscular } from '@prisma/client';
 
 @Controller('zona-muscular')
 @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -29,13 +30,13 @@ export class ZonaMuscularController {
 
   @Get()
   @Permission(Action.Read, 'Zona_Muscular')
-  async findAll() {
+  async findAll(): Promise<ZonaMuscular[]> {
     return this.zonaMuscularService.findAll();
   }
 
   @Get(':id')
   @Permission(Action.Read, 'Zona_Muscular')
-  async findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number): Promise<ZonaMuscular> {
     return this.zonaMuscularService.findOne(id);
   }
 
@@ -44,13 +45,13 @@ export class ZonaMuscularController {
   async update(
     @Param('id') id: number,
     @Body() updateZonaMuscularDto: UpdateZonaMuscularDto,
-  ) {
+  ): Promise<ZonaMuscular> {
     return this.zonaMuscularService.update(id, updateZonaMuscularDto);
   }
 
   @Delete(':id')
   @Permission(Action.Delete, 'Zona_Muscular')
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number): Promise<ZonaMuscular> {
     return this.zonaMuscularService.remove(id);
   }
 }

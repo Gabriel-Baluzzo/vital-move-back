@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { PoliciesGuard } from 'src/casl/policies.guard';
 import { Permission } from 'src/casl/decorators/permissions.decorator';
 import { Action } from 'src/casl/interfaces/action.enum';
+import { Nivel } from '@prisma/client';
 
 @Controller('nivel')
 @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -23,19 +24,19 @@ export class NivelController {
 
   @Post()
   @Permission(Action.Create, 'Nivel')
-  async create(@Body() createNivelDto: CreateNivelDto) {
+  async create(@Body() createNivelDto: CreateNivelDto): Promise<Nivel> {
     return this.nivelService.create(createNivelDto);
   }
 
   @Get()
   @Permission(Action.Read, 'Nivel')
-  async findAll() {
+  async findAll(): Promise<Nivel[]> {
     return this.nivelService.findAll();
   }
 
   @Get(':id')
   @Permission(Action.Read, 'Nivel')
-  async findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number): Promise<Nivel> {
     return this.nivelService.findOne(id);
   }
 
@@ -44,13 +45,13 @@ export class NivelController {
   async update(
     @Param('id') id: number,
     @Body() updateNivelDto: UpdateNivelDto,
-  ) {
+  ): Promise<Nivel> {
     return this.nivelService.update(id, updateNivelDto);
   }
 
   @Delete(':id')
   @Permission(Action.Delete, 'Nivel')
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number): Promise<Nivel> {
     return this.nivelService.remove(id);
   }
 }

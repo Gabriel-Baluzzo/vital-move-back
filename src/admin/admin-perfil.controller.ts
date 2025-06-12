@@ -13,6 +13,7 @@ import { Action } from 'src/casl/interfaces/action.enum';
 import { PoliciesGuard } from 'src/casl/policies.guard';
 import { UpdatePerfilDto } from 'src/perfil/dto/update-perfil.dto';
 import { PerfilService } from 'src/perfil/perfil.service';
+import { Perfil } from '@prisma/client';
 
 @Controller('admin/perfil')
 @UseGuards(JwtAuthGuard, PoliciesGuard)
@@ -21,13 +22,13 @@ export class AdminPerfilController {
 
   @Get()
   @Permission(Action.Read, 'Perfil')
-  async findAll() {
+  async findAll(): Promise<Perfil[]> {
     return this.perfilService.findAll();
   }
 
   @Get(':id')
   @Permission(Action.Read, 'Perfil')
-  async findOne(@Param('id') id: number) {
+  async findOne(@Param('id') id: number): Promise<Perfil> {
     return this.perfilService.findOne(id);
   }
 
@@ -36,13 +37,13 @@ export class AdminPerfilController {
   async update(
     @Param('id') id: number,
     @Body() updatePerfilDto: UpdatePerfilDto,
-  ) {
+  ): Promise<Perfil> {
     return this.perfilService.update(id, updatePerfilDto);
   }
 
   @Delete(':id')
   @Permission(Action.Delete, 'Perfil')
-  async remove(@Param('id') id: number) {
+  async remove(@Param('id') id: number): Promise<Perfil> {
     return this.perfilService.remove(id);
   }
 }

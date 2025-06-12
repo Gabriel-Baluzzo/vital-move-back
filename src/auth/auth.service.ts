@@ -6,11 +6,11 @@ import { Auth } from './entities/auth.entity';
 export class AuthService {
   constructor(private auth: Auth) {}
 
-  async register(dto: AuthDto) {
+  async register(dto: AuthDto): Promise<{ access_token: string }> {
     return this.auth.register(dto);
   }
 
-  async login(dto: AuthDto) {
+  async login(dto: AuthDto): Promise<{ access_token: string }> {
     return this.auth.login(dto);
   }
 }

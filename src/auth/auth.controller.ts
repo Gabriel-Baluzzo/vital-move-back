@@ -9,12 +9,12 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  register(@Body() dto: AuthDto) {
+  async register(@Body() dto: AuthDto): Promise<{ access_token: string }> {
     return this.authService.register(dto);
   }
 
   @Post('login')
-  login(@Body() dto: AuthDto) {
+  async login(@Body() dto: AuthDto): Promise<{ access_token: string }> {
     return this.authService.login(dto);
   }
 

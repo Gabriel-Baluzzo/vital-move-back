@@ -25,7 +25,7 @@ export class Auth {
     return { access_token: this.jwtService.sign(payload) };
   }
 
-  async register(dto: AuthDto) {
+  async register(dto: AuthDto): Promise<{ access_token: string }> {
     const existingUser = await this.credencial.findByEmail(dto.email);
     if (existingUser) {
       throw new ConflictException('El usuario ya existe');
@@ -40,7 +40,7 @@ export class Auth {
     );
   }
 
-  async login(dto: AuthDto) {
+  async login(dto: AuthDto): Promise<{ access_token: string }> {
     const user = await this.credencial.findByEmail(dto.email);
 
     const isValid = user && (await bcrypt.compare(dto.password, user.password));

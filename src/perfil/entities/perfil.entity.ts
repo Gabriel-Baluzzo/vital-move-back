@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { UpdatePerfilDto } from '../dto/update-perfil.dto';
 import { CredencialService } from 'src/credencial/credencial.service';
+import { Perfil as PerfilP } from '@prisma/client';
 
 @Injectable()
 export class Perfil {
@@ -10,13 +11,13 @@ export class Perfil {
     private credencialService: CredencialService,
   ) {}
 
-  async findMany() {
+  async findMany(): Promise<PerfilP[]> {
     return this.prisma.perfil.findMany({
       include: { credencial: true, nivel_actual: true },
     });
   }
 
-  async findOrThrow(id: number) {
+  async findOrThrow(id: number): Promise<PerfilP> {
     const perfil = await this.prisma.perfil.findUnique({
       where: { credencialesId: id },
     });
@@ -26,7 +27,7 @@ export class Perfil {
     return perfil;
   }
 
-  async update(id: number, data: UpdatePerfilDto) {
+  async update(id: number, data: UpdatePerfilDto): Promise<PerfilP> {
     await this.findOrThrow(id);
     const { credencial, ...perfilData } = data;
 
@@ -40,7 +41,7 @@ export class Perfil {
     });
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<PerfilP> {
     await this.findOrThrow(id);
     return this.prisma.perfil.delete({ where: { credencialesId: id } });
   }

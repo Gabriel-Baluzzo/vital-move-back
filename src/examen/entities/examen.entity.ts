@@ -5,6 +5,7 @@ import { PrismaService } from 'prisma/prisma.service';
 import { eNivel } from '../enum/eNivel';
 import { PerfilService } from 'src/perfil/perfil.service';
 import { ResultadoExamenDto } from '../dto/resultado-examen.dto';
+import { Perfil } from '@prisma/client';
 
 @Injectable()
 export class Examen {
@@ -13,7 +14,7 @@ export class Examen {
     private perfil: PerfilService,
   ) {}
 
-  async validar(id: number) {
+  async validar(id: number): Promise<void> {
     const perfil = await this.prisma.perfil.findUnique({
       where: { credencialesId: id },
     });
@@ -30,7 +31,7 @@ export class Examen {
     }
   }
 
-  async update(id: number, resultado: ResultadoExamenDto) {
+  async update(id: number, resultado: ResultadoExamenDto): Promise<Perfil> {
     await Promise.all([this.perfil.findOne(id), this.validar(id)]);
     const puntaje = resultado.puntos;
     let nuevoNivelId: number;

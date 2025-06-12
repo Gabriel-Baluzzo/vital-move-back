@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateZonaMuscularDto } from './dto/create-zona-muscular.dto';
 import { UpdateZonaMuscularDto } from './dto/update-zona-muscular.dto';
 import { ZonaMuscular } from './entities/zona-muscular.entity';
+import { ZonaMuscular as ZonaM } from '@prisma/client';
 
 @Injectable()
 export class ZonaMuscularService {
@@ -11,19 +12,22 @@ export class ZonaMuscularService {
     return this.zona.create(createZonaMuscularDto);
   }
 
-  async findAll() {
+  async findAll(): Promise<ZonaM[]> {
     return this.zona.findMany();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ZonaM> {
     return this.zona.findOrThrow(id);
   }
 
-  async update(id: number, updateZonaMuscularDto: UpdateZonaMuscularDto) {
+  async update(
+    id: number,
+    updateZonaMuscularDto: UpdateZonaMuscularDto,
+  ): Promise<ZonaM> {
     return this.zona.update(id, updateZonaMuscularDto);
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<ZonaM> {
     return this.zona.delete(id);
   }
 }

@@ -2,15 +2,16 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateZonaMuscularDto } from '../dto/create-zona-muscular.dto';
 import { UpdateZonaMuscularDto } from '../dto/update-zona-muscular.dto';
+import { ZonaMuscular as ZonaM } from '@prisma/client';
 @Injectable()
 export class ZonaMuscular {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createZonaMuscularDto: CreateZonaMuscularDto) {
+  async create(createZonaMuscularDto: CreateZonaMuscularDto): Promise<ZonaM> {
     return this.prisma.zonaMuscular.create({ data: createZonaMuscularDto });
   }
 
-  async findOrThrow(id: number) {
+  async findOrThrow(id: number): Promise<ZonaM> {
     const zona = await this.prisma.zonaMuscular.findUnique({
       where: { id },
     });
@@ -22,11 +23,14 @@ export class ZonaMuscular {
     return zona;
   }
 
-  async findMany() {
+  async findMany(): Promise<ZonaM[]> {
     return this.prisma.zonaMuscular.findMany();
   }
 
-  async update(id: number, updateZonaMuscularDto: UpdateZonaMuscularDto) {
+  async update(
+    id: number,
+    updateZonaMuscularDto: UpdateZonaMuscularDto,
+  ): Promise<ZonaM> {
     await this.findOrThrow(id);
     return this.prisma.zonaMuscular.update({
       where: { id },
@@ -34,7 +38,7 @@ export class ZonaMuscular {
     });
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<ZonaM> {
     await this.findOrThrow(id);
     return this.prisma.zonaMuscular.delete({
       where: { id },
