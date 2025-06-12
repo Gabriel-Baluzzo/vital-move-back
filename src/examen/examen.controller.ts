@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
 import { ExamenService } from './examen.service';
 import { ResultadoExamenDto } from './dto/resultado-examen.dto';
 import { CurrentUser } from 'src/auth/jwt/decorator/current-user.decorator';
@@ -10,6 +10,11 @@ import { Perfil } from '@prisma/client';
 @UseGuards(JwtAuthGuard)
 export class ExamenController {
   constructor(private readonly examenService: ExamenService) {}
+
+  @Get()
+  async validacion(@CurrentUser() user: JwtPayload): Promise<void> {
+    await this.examenService.validar(user.userId);
+  }
 
   @Post()
   async examen(
