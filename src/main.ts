@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
@@ -7,7 +8,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   app.enableCors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Lee del .env (http://localhost:3000)
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos HTTP que permites
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', // Métodos HTTP que permites
     credentials: true, // Importante: Permite el envío de cookies/encabezados de autorización
   });
   app.useGlobalPipes(

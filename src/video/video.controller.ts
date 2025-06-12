@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, UseGuards, Query } from '@nestjs/common';
 import { VideoService } from './video.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
@@ -10,7 +11,7 @@ import { Video } from '@prisma/client';
 @UseGuards(JwtAuthGuard)
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
-
+  
   @Get()
   async findQuery(
     @CurrentUser() user: JwtPayload,
@@ -18,4 +19,5 @@ export class VideoController {
   ): Promise<Video[]> {
     return this.videoService.findQuery(user.nivel_actual_id, query);
   }
+
 }
