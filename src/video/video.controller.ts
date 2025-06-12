@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, UseGuards, Query } from '@nestjs/common';
 import { VideoService } from './video.service';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
@@ -9,7 +10,7 @@ import { JwtPayload } from 'src/auth/jwt/jwt.payload';
 @UseGuards(JwtAuthGuard)
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
-
+  
   @Get()
   async findQuery(
     @CurrentUser() user: JwtPayload,
@@ -17,4 +18,5 @@ export class VideoController {
   ) {
     return this.videoService.findQuery(user.nivel_actual_id, query);
   }
+
 }
