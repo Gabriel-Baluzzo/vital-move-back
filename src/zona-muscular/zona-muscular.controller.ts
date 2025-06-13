@@ -11,10 +11,10 @@ import {
 import { ZonaMuscularService } from './zona-muscular.service';
 import { CreateZonaMuscularDto } from './dto/create-zona-muscular.dto';
 import { UpdateZonaMuscularDto } from './dto/update-zona-muscular.dto';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
-import { PoliciesGuard } from 'src/casl/policies.guard';
-import { Permission } from 'src/casl/decorators/permissions.decorator';
-import { Action } from 'src/casl/interfaces/action.enum';
+import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
+import { PoliciesGuard } from '../../src/casl/policies.guard';
+import { Permission } from '../../src/casl/decorators/permissions.decorator';
+import { Action } from '../../src/casl/interfaces/action.enum';
 import { ZonaMuscular } from '@prisma/client';
 
 @Controller('zona-muscular')

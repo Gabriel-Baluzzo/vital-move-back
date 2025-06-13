@@ -1,11 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { ZonaMuscular } from '../../src/zona-muscular/entities/zona-muscular.entity';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { ZonaMuscular as ZonaM } from '@prisma/client';
+import MockDate from 'mockdate';
+
+MockDate.set('2025-6-12');
 
 describe('ZonaMuscular', () => {
-  let service: ZonaMuscular;
+  let entity: ZonaMuscular;
   let prisma: {
     zonaMuscular: {
       create: jest.Mock;
@@ -37,7 +40,7 @@ describe('ZonaMuscular', () => {
       ],
     }).compile();
 
-    service = module.get<ZonaMuscular>(ZonaMuscular);
+    entity = module.get<ZonaMuscular>(ZonaMuscular);
   });
 
   describe('create', () => {
@@ -52,7 +55,7 @@ describe('ZonaMuscular', () => {
       };
       prisma.zonaMuscular.create.mockResolvedValue(zona);
 
-      const result = await service.create(dto);
+      const result = await entity.create(dto);
       expect(result).toEqual(zona);
       expect(prisma.zonaMuscular.create).toHaveBeenCalledWith({ data: dto });
     });
@@ -69,7 +72,7 @@ describe('ZonaMuscular', () => {
       };
       prisma.zonaMuscular.findUnique.mockResolvedValue(zona);
 
-      const result = await service.findOrThrow(1);
+      const result = await entity.findOrThrow(1);
       expect(result).toEqual(zona);
       expect(prisma.zonaMuscular.findUnique).toHaveBeenCalledWith({
         where: { id: 1 },
@@ -79,7 +82,7 @@ describe('ZonaMuscular', () => {
     it('debería lanzar NotFoundException si no existe', async () => {
       prisma.zonaMuscular.findUnique.mockResolvedValue(null);
 
-      await expect(service.findOrThrow(999)).rejects.toThrow(NotFoundException);
+      await expect(entity.findOrThrow(999)).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -96,7 +99,7 @@ describe('ZonaMuscular', () => {
       ];
       prisma.zonaMuscular.findMany.mockResolvedValue(zonas);
 
-      const result = await service.findMany();
+      const result = await entity.findMany();
       expect(result).toEqual(zonas);
       expect(prisma.zonaMuscular.findMany).toHaveBeenCalled();
     });
@@ -124,7 +127,7 @@ describe('ZonaMuscular', () => {
       prisma.zonaMuscular.findUnique.mockResolvedValue(zonaActual);
       prisma.zonaMuscular.update.mockResolvedValue(zonaActualizada);
 
-      const result = await service.update(id, dto);
+      const result = await entity.update(id, dto);
       expect(result).toEqual(zonaActualizada);
       expect(prisma.zonaMuscular.update).toHaveBeenCalledWith({
         where: { id },
@@ -147,7 +150,7 @@ describe('ZonaMuscular', () => {
       prisma.zonaMuscular.findUnique.mockResolvedValue(zona);
       prisma.zonaMuscular.delete.mockResolvedValue(zona);
 
-      const result = await service.delete(id);
+      const result = await entity.delete(1);
       expect(result).toEqual(zona);
       expect(prisma.zonaMuscular.delete).toHaveBeenCalledWith({
         where: { id },

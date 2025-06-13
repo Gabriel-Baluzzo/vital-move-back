@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'prisma/prisma.service';
 import { CreateZonaMuscularDto } from '../dto/create-zona-muscular.dto';
 import { UpdateZonaMuscularDto } from '../dto/update-zona-muscular.dto';
 import { ZonaMuscular as ZonaM } from '@prisma/client';
+import { PrismaService } from '../../../prisma/prisma.service';
 @Injectable()
 export class ZonaMuscular {
   constructor(private readonly prisma: PrismaService) {}
