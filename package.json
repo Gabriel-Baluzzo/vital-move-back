@@ -58,6 +58,7 @@
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^16.0.0",
     "jest": "^29.7.0",
+    "jest-mock-extended": "^4.0.0-beta1",
     "mockdate": "^3.0.5",
     "prettier": "^3.4.2",
     "prisma": "^6.8.2",
@@ -85,11 +86,13 @@
       "src/**/*.{ts,js}"
     ],
     "coveragePathIgnorePatterns": [
-        "/node_modules/",
-        ".*\\.module\\.ts",
-        ".*\\.dto\\.ts"
+      "/node_modules/",
+      ".*\\.module\\.ts",
+      ".*\\.dto\\.ts"
     ],
     "testEnvironment": "node",
-    "coverageReporters": ["text"]
+    "coverageReporters": [
+      "text"
+    ]
   }
 }

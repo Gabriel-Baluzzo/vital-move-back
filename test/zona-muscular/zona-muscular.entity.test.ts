@@ -4,32 +4,25 @@ import { ZonaMuscular } from '../../src/zona-muscular/entities/zona-muscular.ent
 import { PrismaService } from '../../prisma/prisma.service';
 import { ZonaMuscular as ZonaM } from '@prisma/client';
 import MockDate from 'mockdate';
+import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 
 MockDate.set('2025-6-12');
 
 describe('ZonaMuscular', () => {
   let entity: ZonaMuscular;
-  let prisma: {
-    zonaMuscular: {
-      create: jest.Mock;
-      findUnique: jest.Mock;
-      findMany: jest.Mock;
-      update: jest.Mock;
-      delete: jest.Mock;
-    };
+  let prisma: DeepMockProxy<PrismaService>;
+  const zona1: ZonaM = {
+    id: 1,
+    nombre: 'Pecho',
+    descripcion: 'Ejercicios para pecho',
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   beforeEach(async () => {
-    prisma = {
-      zonaMuscular: {
-        create: jest.fn(),
-        findUnique: jest.fn(),
-        findMany: jest.fn(),
-        update: jest.fn(),
-        delete: jest.fn(),
-      },
-    };
-
+    entity = new ZonaMuscular(prisma);
+    prisma = mockDeep<PrismaService>();
+    prisma.zonaMuscular.create.mockResolvedValue(zona1);
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ZonaMuscular,
@@ -45,36 +38,29 @@ describe('ZonaMuscular', () => {
 
   describe('create', () => {
     it('debería crear una zona muscular', async () => {
-      const dto = { nombre: 'Pecho', descripcion: 'Ejercicios para pecho' };
-      const zona: ZonaM = {
+      const createSpy = jest.spyOn(prisma.zonaMuscular, 'create');
+      const dto = { nombre: 'hombro', descripcion: 'Ejercicios para pecho' };
+      const result = await entity.create(dto);
+      expect(result).toEqual({
         id: 1,
         nombre: 'Pecho',
-        descripcion: 'Parte frontal superior del torso',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      prisma.zonaMuscular.create.mockResolvedValue(zona);
-
-      const result = await entity.create(dto);
-      expect(result).toEqual(zona);
-      expect(prisma.zonaMuscular.create).toHaveBeenCalledWith({ data: dto });
+        descripcion: 'Ejercicios para pecho',
+        createdAt: Date(),
+        updatedAt: Date(),
+      });
+      expect(createSpy).toHaveBeenCalledWith({ data: dto });
     });
   });
 
   describe('findOrThrow', () => {
     it('debería devolver la zona muscular si existe', async () => {
-      const zona: ZonaM = {
-        id: 1,
-        nombre: 'Pecho',
-        descripcion: 'Parte frontal superior del torso',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-      prisma.zonaMuscular.findUnique.mockResolvedValue(zona);
+      const createSpy = jest.spyOn(prisma.zonaMuscular, 'findUnique');
+
+      prisma.zonaMuscular.findUnique.mockResolvedValue(zona1);
 
       const result = await entity.findOrThrow(1);
-      expect(result).toEqual(zona);
-      expect(prisma.zonaMuscular.findUnique).toHaveBeenCalledWith({
+      expect(result).toEqual(zona1);
+      expect(createSpy).toHaveBeenCalledWith({
         where: { id: 1 },
       });
     });
@@ -88,34 +74,22 @@ describe('ZonaMuscular', () => {
 
   describe('findMany', () => {
     it('debería devolver un array de zonas musculares', async () => {
-      const zonas: ZonaM[] = [
-        {
-          id: 1,
-          nombre: 'Pecho',
-          descripcion: 'Parte frontal superior del torso',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ];
+      const createSpy = jest.spyOn(prisma.zonaMuscular, 'findMany');
+      const zonas: ZonaM[] = [zona1];
+
       prisma.zonaMuscular.findMany.mockResolvedValue(zonas);
 
       const result = await entity.findMany();
       expect(result).toEqual(zonas);
-      expect(prisma.zonaMuscular.findMany).toHaveBeenCalled();
+      expect(createSpy).toHaveBeenCalled();
     });
   });
 
   describe('update', () => {
     it('debería actualizar una zona muscular existente', async () => {
+      const createSpy = jest.spyOn(prisma.zonaMuscular, 'update');
       const id = 1;
-      const dto = { nombre: 'Espalda', descripcion: 'Ejercicios para pecho' };
-      const zonaActual: ZonaM = {
-        id: 1,
-        nombre: 'Pecho',
-        descripcion: 'Parte frontal superior del torso',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      const dto = { nombre: 'Espalda', descripcion: 'Ejercicios para espalda' };
       const zonaActualizada: ZonaM = {
         id: 1,
         nombre: 'Espalda',
@@ -124,12 +98,12 @@ describe('ZonaMuscular', () => {
         updatedAt: new Date(),
       };
 
-      prisma.zonaMuscular.findUnique.mockResolvedValue(zonaActual);
+      prisma.zonaMuscular.findUnique.mockResolvedValue(zona1);
       prisma.zonaMuscular.update.mockResolvedValue(zonaActualizada);
 
       const result = await entity.update(id, dto);
       expect(result).toEqual(zonaActualizada);
-      expect(prisma.zonaMuscular.update).toHaveBeenCalledWith({
+      expect(createSpy).toHaveBeenCalledWith({
         where: { id },
         data: dto,
       });
@@ -138,21 +112,15 @@ describe('ZonaMuscular', () => {
 
   describe('delete', () => {
     it('debería eliminar una zona muscular existente', async () => {
+      const createSpy = jest.spyOn(prisma.zonaMuscular, 'delete');
       const id = 1;
-      const zona: ZonaM = {
-        id: 1,
-        nombre: 'Pecho',
-        descripcion: 'Parte frontal superior del torso',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
 
-      prisma.zonaMuscular.findUnique.mockResolvedValue(zona);
-      prisma.zonaMuscular.delete.mockResolvedValue(zona);
+      prisma.zonaMuscular.findUnique.mockResolvedValue(zona1);
+      prisma.zonaMuscular.delete.mockResolvedValue(zona1);
 
-      const result = await entity.delete(1);
-      expect(result).toEqual(zona);
-      expect(prisma.zonaMuscular.delete).toHaveBeenCalledWith({
+      const result = await entity.delete(id);
+      expect(result).toEqual(zona1);
+      expect(createSpy).toHaveBeenCalledWith({
         where: { id },
       });
     });
