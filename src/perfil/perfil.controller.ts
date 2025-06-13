@@ -22,6 +22,11 @@ export class PerfilController {
   async getProfile(@CurrentUser() user: JwtPayload): Promise<Perfil> {
     return this.perfilService.findOne(user.userId);
   }
+  
+  @Get('validate')
+  async validacion(@CurrentUser() user: JwtPayload): Promise<void> {
+    await this.perfilService.validar(user.userId);
+  }
 
   @Patch()
   async update(
