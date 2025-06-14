@@ -26,7 +26,7 @@ export class Credencial {
         password,
         perfil: {
           create: {
-            nivel_actual_id: 4,
+            nivel_actual_id: 0,
           },
         },
       },

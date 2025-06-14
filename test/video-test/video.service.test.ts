@@ -128,6 +128,38 @@ describe('VideoService', () => {
         BadRequestException,
       );
     });
+    it('debería retornar videos filtrados por nombre', async () => {
+      const nivelUsuario = 3;
+      const query: FilterVideoDto = { nombre: 'pecho' };
+      const expectedVideos = [createMockVideo({ nombre: 'pecho superior' })];
+
+      videoMock.findQuery.mockResolvedValue(expectedVideos);
+
+      const result = await service.findQuery(nivelUsuario, query);
+
+      expect(result).toEqual(expectedVideos);
+      expect(videoMock.findQuery).toHaveBeenCalledWith({
+        nivel_id: { lte: nivelUsuario },
+        nombre: { contains: 'pecho', mode: 'insensitive' },
+      });
+    });
+    it('debería retornar videos filtrados por descripción', async () => {
+      const nivelUsuario = 3;
+      const query: FilterVideoDto = { descripcion: 'fuerza' };
+      const expectedVideos = [
+        createMockVideo({ descripcion: 'ejercicio de fuerza' }),
+      ];
+
+      videoMock.findQuery.mockResolvedValue(expectedVideos);
+
+      const result = await service.findQuery(nivelUsuario, query);
+
+      expect(result).toEqual(expectedVideos);
+      expect(videoMock.findQuery).toHaveBeenCalledWith({
+        nivel_id: { lte: nivelUsuario },
+        descripcion: { contains: 'fuerza', mode: 'insensitive' },
+      });
+    });
   });
 
   describe('findAll', () => {
