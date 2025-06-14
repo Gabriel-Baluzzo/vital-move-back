@@ -1,8 +1,7 @@
-/* eslint-disable prettier/prettier */
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { ZonaMuscular } from '../src/zona-muscular/entities/zona-muscular.entity';
-import { PrismaService } from "../prisma/prisma.service"
+import { PrismaService } from '../prisma/prisma.service';
 import { ZonaMuscular as ZonaM } from '@prisma/client';
 
 describe('ZonaMuscular', () => {

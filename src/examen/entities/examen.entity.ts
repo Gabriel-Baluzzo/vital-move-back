@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { differenceInDays } from 'date-fns';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { eNivel } from '../enum/eNivel';
 import { PerfilService } from 'src/perfil/perfil.service';

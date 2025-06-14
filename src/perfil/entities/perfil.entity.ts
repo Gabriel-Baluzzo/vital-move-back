@@ -1,5 +1,8 @@
-/* eslint-disable prettier/prettier */
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { UpdatePerfilDto } from '../dto/update-perfil.dto';
 import { CredencialService } from 'src/credencial/credencial.service';
@@ -48,7 +51,7 @@ export class Perfil {
     await this.findOrThrow(id);
     return this.prisma.perfil.delete({ where: { credencialesId: id } });
   }
-  
+
   async validar(id: number): Promise<void> {
     const perfil = await this.prisma.perfil.findUnique({
       where: { credencialesId: id },
@@ -63,11 +66,8 @@ export class Perfil {
           `El examen se puede tomar cada 30 dias. Faltan ${falta} dia(s) para tu siguiente intento.`,
         );
       }
-    }
-    else if (perfil?.fecha_ultima_evaluacion === null) {
-        throw new BadRequestException(
-          `Debes tomar el examen de aptitud fisica`,
-        );
+    } else if (perfil?.fecha_ultima_evaluacion === null) {
+      throw new BadRequestException(`Debes tomar el examen de aptitud fisica`);
     }
   }
 }

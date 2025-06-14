@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { ExamenService } from './examen.service';
 import { ResultadoExamenDto } from './dto/resultado-examen.dto';
 import { CurrentUser } from 'src/auth/jwt/decorator/current-user.decorator';
