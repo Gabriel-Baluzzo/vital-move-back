@@ -1,9 +1,9 @@
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { UpdateVideoDto } from '../dto/update-video.dto';
 import { FilterVideoDto } from '../dto/filter-video.dto';
 import { CreateVideoDto } from '../dto/create-video.dto';
-import { ZonaMuscularService } from 'src/zona-muscular/zona-muscular.service';
-import { NivelService } from 'src/nivel/nivel.service';
+import { ZonaMuscularService } from '../../../src/zona-muscular/zona-muscular.service';
+import { NivelService } from '../../../src/nivel/nivel.service';
 import { Prisma, Video as VideoP } from '@prisma/client';
 import {
   BadRequestException,

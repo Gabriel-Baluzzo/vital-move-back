@@ -1,9 +1,9 @@
 import { Controller, Get, UseGuards, Query } from '@nestjs/common';
 import { VideoService } from './video.service';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
+import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
 import { FilterVideoDto } from './dto/filter-video.dto';
-import { CurrentUser } from 'src/auth/jwt/decorator/current-user.decorator';
-import { JwtPayload } from 'src/auth/jwt/jwt.payload';
+import { CurrentUser } from '../../src/auth/jwt/decorator/current-user.decorator';
+import { JwtPayload } from '../../src/auth/jwt/jwt.payload';
 import { Video } from '@prisma/client';
 
 @Controller('video')

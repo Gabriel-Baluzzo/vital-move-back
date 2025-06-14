@@ -8,13 +8,13 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { VideoService } from 'src/video/video.service';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
-import { PoliciesGuard } from 'src/casl/policies.guard';
-import { Permission } from 'src/casl/decorators/permissions.decorator';
-import { Action } from 'src/casl/interfaces/action.enum';
-import { CreateVideoDto } from 'src/video/dto/create-video.dto';
-import { UpdateVideoDto } from 'src/video/dto/update-video.dto';
+import { VideoService } from '../../src/video/video.service';
+import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
+import { PoliciesGuard } from '../../src/casl/policies.guard';
+import { Permission } from '../../src/casl/decorators/permissions.decorator';
+import { Action } from '../../src/casl/interfaces/action.enum';
+import { CreateVideoDto } from '../../src/video/dto/create-video.dto';
+import { UpdateVideoDto } from '../../src/video/dto/update-video.dto';
 import { Video } from '@prisma/client';
 
 @Controller('admin/video')

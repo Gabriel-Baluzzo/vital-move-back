@@ -1,4 +1,4 @@
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { CreateNivelDto } from '../dto/create-nivel.dto';
 import { UpdateNivelDto } from '../dto/update-nivel.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
