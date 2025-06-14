@@ -1,71 +1,20 @@
 import { PrismaService } from '../../../prisma/prisma.service';
 import { UpdateVideoDto } from '../dto/update-video.dto';
-import { FilterVideoDto } from '../dto/filter-video.dto';
 import { CreateVideoDto } from '../dto/create-video.dto';
-import { ZonaMuscularService } from '../../../src/zona-muscular/zona-muscular.service';
-import { NivelService } from '../../../src/nivel/nivel.service';
 import { Prisma, Video as VideoP } from '@prisma/client';
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class Video {
-  constructor(
-    private readonly prisma: PrismaService,
-    private zona: ZonaMuscularService,
-    private nivel: NivelService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createVideoDto: CreateVideoDto): Promise<VideoP> {
-    const { zona_muscular_id, nivel_id } = createVideoDto;
-
-    await Promise.all([
-      this.zona.findOne(zona_muscular_id),
-      this.nivel.findOne(nivel_id),
-    ]);
-
     return this.prisma.video.create({
       data: createVideoDto,
     });
   }
 
-  async findQuery(
-    nivelUsuario: number,
-    query: FilterVideoDto,
-  ): Promise<VideoP[]> {
-    const { nivel_id, zona_muscular_id, nombre, descripcion } = query;
-
-    let nivelFilter: Prisma.IntFilter;
-
-    if (nivel_id !== undefined) {
-      if (nivel_id > nivelUsuario) {
-        throw new BadRequestException('No alcanzaste esta dificultad.');
-      }
-      nivelFilter = { equals: nivel_id };
-    } else {
-      nivelFilter = { lte: nivelUsuario };
-    }
-
-    const where = {
-      nivel_id: nivelFilter,
-      ...(zona_muscular_id && { zona_muscular_id }),
-      ...(nombre && {
-        nombre: {
-          contains: nombre,
-          mode: 'insensitive' as const,
-        },
-      }),
-      ...(descripcion && {
-        descripcion: {
-          contains: descripcion,
-          mode: 'insensitive' as const,
-        },
-      }),
-    };
-
+  async findQuery(where: Prisma.VideoWhereInput): Promise<VideoP[]> {
     return this.prisma.video.findMany({ where });
   }
 
@@ -84,15 +33,6 @@ export class Video {
   }
 
   async update(id: number, updateVideoDto: UpdateVideoDto): Promise<VideoP> {
-    await this.findOrThrow(id);
-    const { nivel_id, zona_muscular_id } = updateVideoDto;
-    if (nivel_id !== undefined) {
-      await this.nivel.findOne(nivel_id);
-    }
-    if (zona_muscular_id !== undefined) {
-      await this.zona.findOne(zona_muscular_id);
-    }
-
     return this.prisma.video.update({
       where: { id },
       data: updateVideoDto,
@@ -100,7 +40,6 @@ export class Video {
   }
 
   async delete(id: number): Promise<VideoP> {
-    await this.findOrThrow(id);
     return this.prisma.video.delete({ where: { id } });
   }
 }

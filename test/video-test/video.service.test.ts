@@ -5,9 +5,11 @@ import { Video } from '../../src/video/entities/video.entity';
 import { CreateVideoDto } from '../../src/video/dto/create-video.dto';
 import { UpdateVideoDto } from '../../src/video/dto/update-video.dto';
 import { FilterVideoDto } from '../../src/video/dto/filter-video.dto';
-import { Video as VideoP } from '@prisma/client';
+import { Prisma, Video as VideoP } from '@prisma/client';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
+import { ZonaMuscularService } from '../../src/zona-muscular/zona-muscular.service';
+import { NivelService } from '../../src/nivel/nivel.service';
 
 const createMockVideo = (overrides: Partial<VideoP> = {}): VideoP => ({
   id: 1,
@@ -25,8 +27,12 @@ const createMockVideo = (overrides: Partial<VideoP> = {}): VideoP => ({
 describe('VideoService', () => {
   let service: VideoService;
   let videoMock: DeepMockProxy<Video>;
+  let zonaServiceMock: DeepMockProxy<ZonaMuscularService>;
+  let nivelServiceMock: DeepMockProxy<NivelService>;
 
   beforeEach(async () => {
+    zonaServiceMock = mockDeep<ZonaMuscularService>();
+    nivelServiceMock = mockDeep<NivelService>();
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         VideoService,
@@ -34,11 +40,16 @@ describe('VideoService', () => {
           provide: Video,
           useValue: mockDeep<Video>(),
         },
+        { provide: ZonaMuscularService, useValue: zonaServiceMock },
+        { provide: NivelService, useValue: nivelServiceMock },
       ],
     }).compile();
 
     service = module.get<VideoService>(VideoService);
     videoMock = module.get(Video);
+    zonaServiceMock =
+      module.get<DeepMockProxy<ZonaMuscularService>>(ZonaMuscularService);
+    nivelServiceMock = module.get<DeepMockProxy<NivelService>>(NivelService);
   });
 
   it('debería estar definido', () => {
@@ -55,6 +66,8 @@ describe('VideoService', () => {
         nivel_id: 2,
         zona_muscular_id: 3,
       };
+      zonaServiceMock.findOne.mockResolvedValue(undefined as never);
+      nivelServiceMock.findOne.mockResolvedValueOnce(undefined as never);
 
       const expectedVideo = createMockVideo(dto);
 
@@ -64,27 +77,46 @@ describe('VideoService', () => {
 
       expect(result).toEqual(expectedVideo);
       expect(videoMock.create).toHaveBeenCalledWith(dto);
+      expect(zonaServiceMock.findOne).toHaveBeenCalledWith(3);
+      expect(nivelServiceMock.findOne).toHaveBeenCalledWith(2);
+    });
+    it('debería fallar si zona_muscular no existe', async () => {
+      zonaServiceMock.findOne.mockRejectedValueOnce(new NotFoundException());
+      const dto: CreateVideoDto = {
+        nombre: 'Nuevo Video',
+        descripcion: 'Descripción del video',
+        url_video: 'https://nuevo-video.com',
+        url_miniatura: 'https://nuevo-video.com',
+        nivel_id: 2,
+        zona_muscular_id: 3,
+      };
+
+      await expect(service.create(dto)).rejects.toThrow(NotFoundException);
+      expect(videoMock.create).not.toHaveBeenCalled();
     });
   });
 
   describe('findQuery', () => {
-    it('debería retornar videos filtrados', async () => {
+    it('debería retornar videos filtrados con nivel_id definido', async () => {
       const nivelUsuario = 3;
       const query: FilterVideoDto = { nivel_id: 2, zona_muscular_id: 5 };
       const expectedVideos = [
         createMockVideo({ id: 1, nivel_id: 2, zona_muscular_id: 5 }),
-        createMockVideo({ id: 2, nivel_id: 2, zona_muscular_id: 5 }),
       ];
+
+      const where: Prisma.VideoWhereInput = {
+        nivel_id: { equals: query.nivel_id },
+        zona_muscular_id: query.zona_muscular_id,
+      };
 
       videoMock.findQuery.mockResolvedValue(expectedVideos);
 
       const result = await service.findQuery(nivelUsuario, query);
-
       expect(result).toEqual(expectedVideos);
-      expect(videoMock.findQuery).toHaveBeenCalledWith(nivelUsuario, query);
+      expect(videoMock.findQuery).toHaveBeenCalledWith(where);
     });
 
-    it('debería propagar errores de validación', async () => {
+    it('debería fallar si no se tiene el nivel suficiente de dificultad', async () => {
       const nivelUsuario = 2;
       const query: FilterVideoDto = { nivel_id: 3 };
 

@@ -31,7 +31,6 @@ export class ZonaMuscular {
     id: number,
     updateZonaMuscularDto: UpdateZonaMuscularDto,
   ): Promise<ZonaM> {
-    await this.findOrThrow(id);
     return this.prisma.zonaMuscular.update({
       where: { id },
       data: updateZonaMuscularDto,
@@ -39,7 +38,6 @@ export class ZonaMuscular {
   }
 
   async delete(id: number): Promise<ZonaM> {
-    await this.findOrThrow(id);
     return this.prisma.zonaMuscular.delete({
       where: { id },
     });

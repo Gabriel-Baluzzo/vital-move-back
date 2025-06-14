@@ -24,10 +24,12 @@ export class ZonaMuscularService {
     id: number,
     updateZonaMuscularDto: UpdateZonaMuscularDto,
   ): Promise<ZonaM> {
+    await this.zona.findOrThrow(id);
     return this.zona.update(id, updateZonaMuscularDto);
   }
 
   async remove(id: number): Promise<ZonaM> {
+    await this.zona.findOrThrow(id);
     return this.zona.delete(id);
   }
 }

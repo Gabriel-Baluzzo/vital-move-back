@@ -96,12 +96,6 @@ describe('ZonaMuscular Entity', () => {
       });
       expect(result).toEqual(updatedZona);
     });
-
-    it('debería lanzar error si la zona no existe', async () => {
-      prisma.zonaMuscular.findUnique.mockResolvedValue(null);
-
-      await expect(entity.update(999, mockUpdateDto)).rejects.toThrow();
-    });
   });
 
   describe('delete()', () => {
@@ -115,12 +109,6 @@ describe('ZonaMuscular Entity', () => {
         where: { id: 1 },
       });
       expect(result).toEqual(mockZona);
-    });
-
-    it('debería lanzar error si la zona no existe', async () => {
-      prisma.zonaMuscular.findUnique.mockResolvedValue(null);
-
-      await expect(entity.delete(999)).rejects.toThrow();
     });
   });
 });
