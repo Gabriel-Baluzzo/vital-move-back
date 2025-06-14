@@ -5,6 +5,6 @@ export class CreateNivelDto {
   nombre: string;
 
   @IsInt()
-  @Min(1)
+  @Min(0)
   numero_orden: number;
 }

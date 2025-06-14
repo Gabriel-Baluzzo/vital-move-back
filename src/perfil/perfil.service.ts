@@ -22,4 +22,8 @@ export class PerfilService {
   async remove(id: number): Promise<PerfilP> {
     return this.perfil.delete(id);
   }
+
+  async validar(id: number): Promise<void> {
+    return this.perfil.validar(id);
+  }
 }

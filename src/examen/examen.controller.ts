@@ -11,11 +11,6 @@ import { Perfil } from '@prisma/client';
 export class ExamenController {
   constructor(private readonly examenService: ExamenService) {}
 
-  @Get()
-  async validacion(@CurrentUser() user: JwtPayload): Promise<void> {
-    await this.examenService.validar(user.userId);
-  }
-
   @Post()
   async examen(
     @Body() resultado: ResultadoExamenDto,
