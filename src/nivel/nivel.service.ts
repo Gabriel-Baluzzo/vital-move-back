@@ -21,10 +21,12 @@ export class NivelService {
   }
 
   async update(id: number, updateNivelDto: UpdateNivelDto): Promise<NivelP> {
+    await this.nivel.findOrThrow(id);
     return this.nivel.update(id, updateNivelDto);
   }
 
   async remove(id: number): Promise<NivelP> {
+    await this.nivel.findOrThrow(id);
     return this.nivel.delete(id);
   }
 }

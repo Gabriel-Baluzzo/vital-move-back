@@ -11,10 +11,10 @@ import {
 import { NivelService } from './nivel.service';
 import { CreateNivelDto } from './dto/create-nivel.dto';
 import { UpdateNivelDto } from './dto/update-nivel.dto';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
-import { PoliciesGuard } from 'src/casl/policies.guard';
-import { Permission } from 'src/casl/decorators/permissions.decorator';
-import { Action } from 'src/casl/interfaces/action.enum';
+import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
+import { PoliciesGuard } from '../../src/casl/policies.guard';
+import { Permission } from '../../src/casl/decorators/permissions.decorator';
+import { Action } from '../../src/casl/interfaces/action.enum';
 import { Nivel } from '@prisma/client';
 
 @Controller('nivel')

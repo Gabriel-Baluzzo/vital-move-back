@@ -29,7 +29,6 @@ export class Nivel {
   }
 
   async update(id: number, updateNivelDto: UpdateNivelDto): Promise<NivelP> {
-    await this.findOrThrow(id);
     return this.prisma.nivel.update({
       where: { id },
       data: updateNivelDto,
@@ -37,7 +36,6 @@ export class Nivel {
   }
 
   async delete(id: number): Promise<NivelP> {
-    await this.findOrThrow(id);
     return this.prisma.nivel.delete({
       where: { id },
     });
