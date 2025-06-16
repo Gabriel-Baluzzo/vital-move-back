@@ -12,7 +12,6 @@ export class ExamenService {
 
   async validarNuevoUsuario(id: number): Promise<void> {
     const perfil = await this.perfil.findOne(id);
-    await this.validarFechaExamen(id);
     if (perfil?.fecha_ultima_evaluacion === null) {
       throw new BadRequestException(`Debes tomar el examen de aptitud fisica`);
     }
