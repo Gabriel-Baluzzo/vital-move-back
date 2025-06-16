@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
 import { Perfil } from './entities/perfil.entity';
 import { Perfil as PerfilP } from '@prisma/client';
-import { CredencialService } from 'src/credencial/credencial.service';
+import { CredencialService } from '../../src/credencial/credencial.service';
 
 @Injectable()
 export class PerfilService {

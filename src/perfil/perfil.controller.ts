@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { PerfilService } from './perfil.service';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
-import { JwtPayload } from 'src/auth/jwt/jwt.payload';
-import { CurrentUser } from 'src/auth/jwt/decorator/current-user.decorator';
+import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
+import { JwtPayload } from '../../src/auth/jwt/jwt.payload';
+import { CurrentUser } from '../../src/auth/jwt/decorator/current-user.decorator';
 import { Perfil } from '@prisma/client';
 
 @Controller('perfil')

@@ -10,8 +10,5 @@ export class CreatePerfilDto {
   fecha_nacimiento: Date;
 
   @IsInt()
-  nivel_actual_id: number;
-
-  @IsInt()
   credencialesId: number;
 }

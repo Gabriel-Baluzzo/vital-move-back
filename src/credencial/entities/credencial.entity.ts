@@ -1,4 +1,4 @@
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { UpdateCredencialDto } from '../dto/update-credencial.dto';
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';

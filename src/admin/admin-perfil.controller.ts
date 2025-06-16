@@ -7,12 +7,12 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
-import { Permission } from 'src/casl/decorators/permissions.decorator';
-import { Action } from 'src/casl/interfaces/action.enum';
-import { PoliciesGuard } from 'src/casl/policies.guard';
-import { UpdatePerfilDto } from 'src/perfil/dto/update-perfil.dto';
-import { PerfilService } from 'src/perfil/perfil.service';
+import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
+import { Permission } from '../../src/casl/decorators/permissions.decorator';
+import { Action } from '../../src/casl/interfaces/action.enum';
+import { PoliciesGuard } from '../../src/casl/policies.guard';
+import { UpdatePerfilDto } from '../../src/perfil/dto/update-perfil.dto';
+import { PerfilService } from '../../src/perfil/perfil.service';
 import { Perfil } from '@prisma/client';
 
 @Controller('admin/perfil')
