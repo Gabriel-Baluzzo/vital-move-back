@@ -33,11 +33,12 @@ export class ExamenService {
     }
   }
 
-  async validarTotal(id: number) {
-    await Promise.all([
-      this.validarFechaExamen(id),
-      this.validarNuevoUsuario(id),
-    ]);
+  async validarTotal(nivelUsuario: number, id: number) {
+    if (nivelUsuario < eNivel.PRINCIPIANTE) {
+      await this.validarNuevoUsuario(id);
+    } else {
+      await this.validarFechaExamen(id);
+    }
   }
 
   async update(id: number, resultado: ResultadoExamenDto): Promise<Perfil> {
