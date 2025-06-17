@@ -38,6 +38,7 @@ export class Perfil {
         nivel_actual_id: nivelId,
         fecha_ultima_evaluacion: new Date(),
       },
+      include: { credencial: true, nivel_actual: true },
     });
   }
 

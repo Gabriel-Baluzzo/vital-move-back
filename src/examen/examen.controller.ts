@@ -25,7 +25,7 @@ export class ExamenController {
   async examen(
     @Body() resultado: ResultadoExamenDto,
     @CurrentUser() user: JwtPayload,
-  ): Promise<Perfil> {
+  ): Promise<{ perfil: Perfil; access_token: string }> {
     return this.examenService.update(user.userId, resultado);
   }
 }
