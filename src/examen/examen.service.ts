@@ -5,7 +5,7 @@ import { Perfil } from '@prisma/client';
 import { PerfilService } from '../../src/perfil/perfil.service';
 import { eNivel } from './enum/eNivel';
 import { differenceInDays } from 'date-fns';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../../src/auth/auth.service';
 
 @Injectable()
 export class ExamenService {

@@ -107,10 +107,33 @@ describe('PerfilService', () => {
 
   describe('updateNivel', () => {
     it('debería llamar a updateNivel en la entidad Perfil', async () => {
-      perfilMock.updateNivel.mockResolvedValueOnce(mockPerfil);
+      const perfilCompleto = {
+        id: 1,
+        nombre: 'Nombre Ejemplo',
+        rol: 'user',
+        fecha_nacimiento: new Date(),
+        fecha_ultima_evaluacion: new Date(),
+        credencialesId: 1,
+        nivel_actual_id: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        credencial: {
+          id: 1,
+          email: 'test@example.com',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          password: 'hashedpassword',
+        },
+        nivel_actual: {
+          id: 2,
+          nombre: 'Intermedio',
+          numero_orden: 2,
+        },
+      };
+      perfilMock.updateNivel.mockResolvedValueOnce(perfilCompleto);
 
       const result = await service.updateNivel(1, 2);
-      expect(result).toEqual(mockPerfil);
+      expect(result).toEqual(perfilCompleto);
       expect(perfilMock.updateNivel).toHaveBeenCalledWith(1, 2);
     });
   });

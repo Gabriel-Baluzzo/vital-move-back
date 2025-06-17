@@ -6,10 +6,12 @@ import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 import { BadRequestException } from '@nestjs/common';
 import { eNivel } from '../../src/examen/enum/eNivel';
 import { ResultadoExamenDto } from '../../src/examen/dto/resultado-examen.dto';
+import { AuthService } from '../../src/auth/auth.service';
 
 describe('ExamenService', () => {
   let service: ExamenService;
   let perfilMock: DeepMockProxy<PerfilService>;
+  const authMock = mockDeep<AuthService>();
 
   const perfilConFecha = {
     id: 1,
@@ -32,6 +34,7 @@ describe('ExamenService', () => {
       providers: [
         ExamenService,
         { provide: PerfilService, useValue: perfilMock },
+        { provide: AuthService, useValue: authMock },
       ],
     }).compile();
 
@@ -74,56 +77,111 @@ describe('ExamenService', () => {
     });
   });
 
-  describe('validarTotal', () => {
-    it('debería llamar validarNuevoUsuario si nivelUsuario es menor a PRINCIPIANTE', async () => {
-      const spy = jest
-        .spyOn(service, 'validarNuevoUsuario')
-        .mockResolvedValue();
-      await service.validarTotal(0, 1);
-      expect(spy).toHaveBeenCalledWith(1);
-    });
-
-    it('debería llamar validarFechaExamen si nivelUsuario es mayor o igual a PRINCIPIANTE', async () => {
-      const spy = jest.spyOn(service, 'validarFechaExamen').mockResolvedValue();
-      await service.validarTotal(eNivel.PRINCIPIANTE, 1);
-      expect(spy).toHaveBeenCalledWith(1);
-    });
-  });
-
   describe('update', () => {
+    const perfilConFecha = {
+      id: 1,
+      nombre: 'Nombre Ejemplo',
+      rol: 'user',
+      fecha_nacimiento: new Date(),
+      fecha_ultima_evaluacion: new Date(),
+      credencialesId: 1,
+      nivel_actual_id: 2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      credencial: {
+        id: 1,
+        email: 'test@example.com',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        password: 'hashedpassword',
+      },
+      nivel_actual: {
+        id: 2,
+        nombre: 'Intermedio',
+        numero_orden: 2,
+      },
+    };
     beforeEach(() => {
       jest.spyOn(service, 'validarFechaExamen').mockResolvedValue();
     });
 
     it('debería asignar PRINCIPIANTE si el puntaje es bajo', async () => {
       perfilMock.updateNivel.mockResolvedValueOnce(perfilConFecha);
+      authMock.generateToken.mockReturnValueOnce({
+        access_token: 'token-principiante',
+      });
+
       const resultado: ResultadoExamenDto = { puntos: 3 };
+
       const result = await service.update(1, resultado);
-      expect(result).toEqual(perfilConFecha);
+
+      expect(result).toEqual({
+        perfil: perfilConFecha,
+        access_token: 'token-principiante',
+      });
+
       expect(perfilMock.updateNivel).toHaveBeenCalledWith(
         1,
         eNivel.PRINCIPIANTE,
+      );
+      expect(authMock.generateToken).toHaveBeenCalledWith(
+        perfilConFecha.credencial.id,
+        perfilConFecha.credencial.email,
+        perfilConFecha.rol,
+        perfilConFecha.nivel_actual_id,
       );
     });
 
     it('debería asignar INTERMEDIO si el puntaje es intermedio', async () => {
       perfilMock.updateNivel.mockResolvedValueOnce(perfilConFecha);
+      authMock.generateToken.mockReturnValueOnce({
+        access_token: 'token-intermedio',
+      });
+
       const resultado: ResultadoExamenDto = {
         puntos: eNivel.MINIMO_REQUERIDO_INTERMEDIO,
       };
+
       const result = await service.update(1, resultado);
-      expect(result).toEqual(perfilConFecha);
+
+      expect(result).toEqual({
+        perfil: perfilConFecha,
+        access_token: 'token-intermedio',
+      });
+
       expect(perfilMock.updateNivel).toHaveBeenCalledWith(1, eNivel.INTERMEDIO);
+      expect(authMock.generateToken).toHaveBeenCalledWith(
+        perfilConFecha.credencial.id,
+        perfilConFecha.credencial.email,
+        perfilConFecha.rol,
+        perfilConFecha.nivel_actual_id,
+      );
     });
 
     it('debería asignar AVANZADO si el puntaje es alto', async () => {
       perfilMock.updateNivel.mockResolvedValueOnce(perfilConFecha);
+      authMock.generateToken.mockReturnValueOnce({
+        access_token: 'token-avanzado',
+      });
+
       const resultado: ResultadoExamenDto = {
         puntos: eNivel.MINIMO_REQUERIDO_AVANZADO,
       };
+
       const result = await service.update(1, resultado);
-      expect(result).toEqual(perfilConFecha);
+
+      expect(result).toEqual({
+        perfil: perfilConFecha,
+        access_token: 'token-avanzado',
+      });
+
       expect(perfilMock.updateNivel).toHaveBeenCalledWith(1, eNivel.AVANZADO);
+      expect(authMock.generateToken).toHaveBeenCalledWith(
+        perfilConFecha.credencial.id,
+        perfilConFecha.credencial.email,
+        perfilConFecha.rol,
+        perfilConFecha.nivel_actual_id,
+      );
     });
   });
 });

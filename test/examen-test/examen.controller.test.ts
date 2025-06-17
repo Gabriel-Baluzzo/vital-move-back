@@ -60,13 +60,18 @@ describe('ExamenController', () => {
   });
 
   describe('examen', () => {
-    it('debería retornar el perfil actualizado al realizar el examen', async () => {
+    it('debería retornar el perfil actualizado y el token al realizar el examen', async () => {
       const resultado: ResultadoExamenDto = { puntos: 80 };
-      serviceMock.update.mockResolvedValueOnce(perfilMock);
+      const mockResponse = {
+        perfil: perfilMock,
+        access_token: 'token-ejemplo',
+      };
+
+      serviceMock.update.mockResolvedValueOnce(mockResponse);
 
       const result = await controller.examen(resultado, userMock);
 
-      expect(result).toEqual(perfilMock);
+      expect(result).toEqual(mockResponse);
       expect(serviceMock.update).toHaveBeenCalledWith(
         userMock.userId,
         resultado,

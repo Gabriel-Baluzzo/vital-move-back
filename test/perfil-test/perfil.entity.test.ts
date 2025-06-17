@@ -95,6 +95,7 @@ describe('Perfil', () => {
           nivel_actual_id: 5,
           fecha_ultima_evaluacion: expect.any(Date),
         },
+        include: { credencial: true, nivel_actual: true },
       });
     });
   });
