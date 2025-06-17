@@ -6,9 +6,9 @@ export class UpdateCredencialDto extends PartialType(CreateCredencialDto) {
   @IsOptional()
   @IsString()
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsOptional()
   @IsString()
-  password: string;
+  password?: string;
 }

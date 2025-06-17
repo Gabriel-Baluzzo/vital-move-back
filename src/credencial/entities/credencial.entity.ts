@@ -1,18 +1,12 @@
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../../prisma/prisma.service';
-import { UpdateCredencialDto } from '../dto/update-credencial.dto';
 import { Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class Credencial {
   constructor(private readonly prisma: PrismaService) {}
 
-  async update(id: number, dto: UpdateCredencialDto) {
-    const data = dto;
-
-    if (dto.password) {
-      data.password = await bcrypt.hash(dto.password, 10);
-    }
+  async update(id: number, data: Prisma.CredencialUpdateInput) {
     return this.prisma.credencial.update({
       where: { id },
       data,
