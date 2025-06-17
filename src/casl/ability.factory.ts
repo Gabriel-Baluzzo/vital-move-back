@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AbilityBuilder, createMongoAbility } from '@casl/ability';
-import { Action } from './interfaces/action.enum';
+import { Action } from './enum/action.enum';
 import { Perfil } from '@prisma/client';
 
 @Injectable()

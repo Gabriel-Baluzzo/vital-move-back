@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
 import { Permission } from '../../src/casl/decorators/permissions.decorator';
-import { Action } from '../../src/casl/interfaces/action.enum';
+import { Action } from '../casl/enum/action.enum';
 import { PoliciesGuard } from '../../src/casl/policies.guard';
 import { UpdatePerfilDto } from '../../src/perfil/dto/update-perfil.dto';
 import { PerfilService } from '../../src/perfil/perfil.service';

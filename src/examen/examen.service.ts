@@ -2,7 +2,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ResultadoExamenDto } from './dto/resultado-examen.dto';
 import { Perfil } from '@prisma/client';
-import { PerfilService } from 'src/perfil/perfil.service';
+import { PerfilService } from '../../src/perfil/perfil.service';
 import { eNivel } from './enum/eNivel';
 import { differenceInDays } from 'date-fns';
 

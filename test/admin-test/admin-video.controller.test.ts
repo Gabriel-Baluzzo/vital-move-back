@@ -8,7 +8,7 @@ import { AdminVideoController } from '../../src/admin/admin-video.controller';
 import { VideoService } from '../../src/video/video.service';
 import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
 import { PoliciesGuard } from '../../src/casl/policies.guard';
-import { Action } from '../../src/casl/interfaces/action.enum';
+import { Action } from '../../src/casl/enum/action.enum';
 import { CreateVideoDto } from '../../src/video/dto/create-video.dto';
 import { UpdateVideoDto } from '../../src/video/dto/update-video.dto';
 import { Video } from '@prisma/client';

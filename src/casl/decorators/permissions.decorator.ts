@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { Action } from '../interfaces/action.enum';
+import { Action } from '../enum/action.enum';
 
 export interface RequiredPermission {
   action: Action;

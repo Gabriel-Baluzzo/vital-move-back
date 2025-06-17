@@ -1,9 +1,9 @@
 import { Controller, Post, Body, UseGuards, Get } from '@nestjs/common';
 import { ExamenService } from './examen.service';
 import { ResultadoExamenDto } from './dto/resultado-examen.dto';
-import { CurrentUser } from 'src/auth/jwt/decorator/current-user.decorator';
-import { JwtPayload } from 'src/auth/jwt/jwt.payload';
-import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
+import { CurrentUser } from '../../src/auth/jwt/decorator/current-user.decorator';
+import { JwtPayload } from '../../src/auth/jwt/jwt.payload';
+import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
 import { Perfil } from '@prisma/client';
 
 @Controller('examen')
