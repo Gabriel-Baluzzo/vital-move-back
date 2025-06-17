@@ -6,7 +6,6 @@ import { AuthModule } from 'src/auth/auth.module';
 import { PerfilService } from 'src/perfil/perfil.service';
 import { Perfil } from 'src/perfil/entities/perfil.entity';
 import { CredencialService } from 'src/credencial/credencial.service';
-import { Examen } from './entities/examen.entity';
 import { Credencial } from 'src/credencial/entities/credencial.entity';
 
 @Module({
@@ -14,7 +13,6 @@ import { Credencial } from 'src/credencial/entities/credencial.entity';
   controllers: [ExamenController],
   providers: [
     ExamenService,
-    Examen,
     PerfilService,
     Perfil,
     CredencialService,

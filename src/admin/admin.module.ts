@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AdminService } from './admin.service';
 import { AdminPerfilController } from './admin-perfil.controller';
 import { CaslModule } from 'src/casl/casl.module';
 import { AuthModule } from 'src/auth/auth.module';
@@ -20,7 +19,6 @@ import { PrismaModule } from 'prisma/prisma.module';
   imports: [CaslModule, AuthModule, PrismaModule],
   controllers: [AdminPerfilController, AdminVideoController],
   providers: [
-    AdminService,
     PerfilService,
     VideoService,
     Perfil,
