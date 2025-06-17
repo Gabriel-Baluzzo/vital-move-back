@@ -1,0 +1,54 @@
+@startuml VitalMove
+skinparam classAttributeIconSize 0
+
+class CreateZonaMuscularDto <<DTO>> {
+  + nombre: string
+  + descripcion: string
+}
+
+class UpdateZonaMuscularDto <<DTO>> {
+  + nombre?: string
+  + descripcion?: string
+}
+
+class ZonaMuscular <<Entity>> {
+  + create(dto: CreateZonaMuscularDto): ZonaM
+  + findOrThrow(id: number): ZonaM
+  + findMany(): ZonaM[]
+  + update(id: number, dto: UpdateZonaMuscularDto): ZonaM
+  + delete(id: number): ZonaM
+}
+
+class ZonaMuscularService <<Service>> {
+  + create(dto: CreateZonaMuscularDto): ZonaM
+  + findAll(): ZonaM[]
+  + findOne(id: number): ZonaM
+  + update(id: number, dto: UpdateZonaMuscularDto): ZonaM
+  + remove(id: number): ZonaM
+}
+
+class ZonaMuscularController <<Controller>> {
+  + create(dto: CreateZonaMuscularDto): ZonaM
+  + findAll(): ZonaM[]
+  + findOne(id: number): ZonaM
+  + update(id: number, dto: UpdateZonaMuscularDto): ZonaM
+  + remove(id: number): ZonaM
+}
+
+class PrismaService
+
+' Relaciones
+CreateZonaMuscularDto <|-- UpdateZonaMuscularDto
+ZonaMuscularController --> ZonaMuscularService
+ZonaMuscularService --> ZonaMuscular
+ZonaMuscular --> PrismaService
+
+' Relaciones específicas con DTO
+ZonaMuscularController ..> CreateZonaMuscularDto
+ZonaMuscularController ..> UpdateZonaMuscularDto 
+ZonaMuscularService ..> CreateZonaMuscularDto 
+ZonaMuscularService ..> UpdateZonaMuscularDto 
+ZonaMuscular ..> CreateZonaMuscularDto 
+ZonaMuscular ..> UpdateZonaMuscularDto
+
+@enduml
