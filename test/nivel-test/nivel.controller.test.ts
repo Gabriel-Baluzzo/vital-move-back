@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { CanActivate } from '@nestjs/common';
 import { PoliciesGuard } from '../../src/casl/policies.guard';
@@ -7,22 +8,19 @@ import { NivelService } from '../../src/nivel/nivel.service';
 import { CreateNivelDto } from '../../src/nivel/dto/create-nivel.dto';
 import { UpdateNivelDto } from '../../src/nivel/dto/update-nivel.dto';
 import { Nivel } from '@prisma/client';
+import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 
 class MockPoliciesGuard implements CanActivate {
   canActivate() {
     return true;
   }
 }
-MockDate.set('2025-6-13');
+
+MockDate.set('2025-06-13');
+
 describe('NivelController', () => {
   let controller: NivelController;
-  let service: {
-    create: jest.Mock;
-    findAll: jest.Mock;
-    findOne: jest.Mock;
-    update: jest.Mock;
-    remove: jest.Mock;
-  };
+  let service: DeepMockProxy<NivelService>;
 
   const nivelMock: Nivel = {
     id: 1,
@@ -31,20 +29,10 @@ describe('NivelController', () => {
   };
 
   beforeEach(async () => {
-    service = {
-      create: jest.fn().mockResolvedValue(nivelMock),
-      findAll: jest.fn().mockResolvedValue([nivelMock]),
-      findOne: jest.fn().mockResolvedValue(nivelMock),
-      update: jest.fn().mockResolvedValue(nivelMock),
-      remove: jest.fn().mockResolvedValue(nivelMock),
-    };
     const module: TestingModule = await Test.createTestingModule({
       controllers: [NivelController],
       providers: [
-        {
-          provide: NivelService,
-          useValue: service,
-        },
+        { provide: NivelService, useValue: mockDeep<NivelService>() },
       ],
     })
       .overrideGuard(PoliciesGuard)
@@ -53,14 +41,20 @@ describe('NivelController', () => {
 
     controller = module.get<NivelController>(NivelController);
     service = module.get(NivelService);
+
+    service.create.mockResolvedValue(nivelMock);
+    service.findAll.mockResolvedValue([nivelMock]);
+    service.findOne.mockResolvedValue(nivelMock);
+    service.update.mockResolvedValue(nivelMock);
+    service.remove.mockResolvedValue(nivelMock);
   });
 
-  it('should be defined', () => {
+  it('debería estar definido', () => {
     expect(controller).toBeDefined();
   });
 
   describe('create', () => {
-    it('should call service.create and return result', async () => {
+    it('debería crear un nivel y devolverlo', async () => {
       const dto: CreateNivelDto = {
         nombre: 'Principiante',
         numero_orden: 1,
@@ -72,15 +66,15 @@ describe('NivelController', () => {
   });
 
   describe('findAll', () => {
-    it('should return an array of niveles', async () => {
+    it('debería devolver un arreglo de niveles', async () => {
       const result = await controller.findAll();
-      expect(result).toEqual([nivelMock]);
       expect(service.findAll).toHaveBeenCalled();
+      expect(result).toEqual([nivelMock]);
     });
   });
 
   describe('findOne', () => {
-    it('should return a single nivel', async () => {
+    it('debería devolver un nivel por ID', async () => {
       const result = await controller.findOne(1);
       expect(service.findOne).toHaveBeenCalledWith(1);
       expect(result).toEqual(nivelMock);
@@ -88,7 +82,7 @@ describe('NivelController', () => {
   });
 
   describe('update', () => {
-    it('should call service.update with correct params', async () => {
+    it('debería actualizar un nivel y devolverlo', async () => {
       const dto: UpdateNivelDto = {
         nombre: 'Intermedio',
         numero_orden: 2,
@@ -100,7 +94,7 @@ describe('NivelController', () => {
   });
 
   describe('remove', () => {
-    it('should call service.remove and return result', async () => {
+    it('debería eliminar un nivel y devolverlo', async () => {
       const result = await controller.remove(1);
       expect(service.remove).toHaveBeenCalledWith(1);
       expect(result).toEqual(nivelMock);

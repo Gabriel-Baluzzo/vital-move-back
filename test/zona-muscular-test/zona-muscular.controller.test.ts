@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ZonaMuscularController } from '../../src/zona-muscular/zona-muscular.controller';
 import { ZonaMuscularService } from '../../src/zona-muscular/zona-muscular.service';
@@ -7,22 +8,19 @@ import { ZonaMuscular } from '@prisma/client';
 import { CanActivate } from '@nestjs/common';
 import { PoliciesGuard } from '../../src/casl/policies.guard';
 import MockDate from 'mockdate';
+import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 
 class MockPoliciesGuard implements CanActivate {
   canActivate() {
     return true;
   }
 }
-MockDate.set('2025-6-13');
+
+MockDate.set('2025-06-13');
+
 describe('ZonaMuscularController', () => {
   let controller: ZonaMuscularController;
-  let service: {
-    create: jest.Mock;
-    findAll: jest.Mock;
-    findOne: jest.Mock;
-    update: jest.Mock;
-    remove: jest.Mock;
-  };
+  let service: DeepMockProxy<ZonaMuscularService>;
 
   const zonaMock: ZonaMuscular = {
     id: 1,
@@ -33,19 +31,12 @@ describe('ZonaMuscularController', () => {
   };
 
   beforeEach(async () => {
-    service = {
-      create: jest.fn().mockResolvedValue(zonaMock),
-      findAll: jest.fn().mockResolvedValue([zonaMock]),
-      findOne: jest.fn().mockResolvedValue(zonaMock),
-      update: jest.fn().mockResolvedValue(zonaMock),
-      remove: jest.fn().mockResolvedValue(zonaMock),
-    };
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ZonaMuscularController],
       providers: [
         {
           provide: ZonaMuscularService,
-          useValue: service,
+          useValue: mockDeep<ZonaMuscularService>(),
         },
       ],
     })
@@ -55,14 +46,19 @@ describe('ZonaMuscularController', () => {
 
     controller = module.get<ZonaMuscularController>(ZonaMuscularController);
     service = module.get(ZonaMuscularService);
+    service.create.mockResolvedValue(zonaMock);
+    service.findAll.mockResolvedValue([zonaMock]);
+    service.findOne.mockResolvedValue(zonaMock);
+    service.update.mockResolvedValue(zonaMock);
+    service.remove.mockResolvedValue(zonaMock);
   });
 
-  it('should be defined', () => {
+  it('debería estar definido', () => {
     expect(controller).toBeDefined();
   });
 
   describe('create', () => {
-    it('should call service.create and return result', async () => {
+    it('debería crear una zona muscular y devolverla', async () => {
       const dto: CreateZonaMuscularDto = {
         nombre: 'Espalda',
         descripcion: 'trabaja espalda',
@@ -74,7 +70,7 @@ describe('ZonaMuscularController', () => {
   });
 
   describe('findAll', () => {
-    it('should return an array of zonas musculares', async () => {
+    it('debería devolver un arreglo de zonas musculares', async () => {
       const result = await controller.findAll();
       expect(result).toEqual([zonaMock]);
       expect(service.findAll).toHaveBeenCalled();
@@ -82,7 +78,7 @@ describe('ZonaMuscularController', () => {
   });
 
   describe('findOne', () => {
-    it('should return a single zona muscular', async () => {
+    it('debería devolver una zona muscular', async () => {
       const result = await controller.findOne(1);
       expect(service.findOne).toHaveBeenCalledWith(1);
       expect(result).toEqual(zonaMock);
@@ -90,7 +86,7 @@ describe('ZonaMuscularController', () => {
   });
 
   describe('update', () => {
-    it('should call service.update with correct params', async () => {
+    it('debería actualizar una zona muscular y devolverla', async () => {
       const dto: UpdateZonaMuscularDto = {
         nombre: 'Hombros',
         descripcion: 'Trabaja hombros',
@@ -102,7 +98,7 @@ describe('ZonaMuscularController', () => {
   });
 
   describe('remove', () => {
-    it('should call service.remove and return result', async () => {
+    it('debería eliminar una zona muscular y devolverla', async () => {
       const result = await controller.remove(1);
       expect(service.remove).toHaveBeenCalledWith(1);
       expect(result).toEqual(zonaMock);

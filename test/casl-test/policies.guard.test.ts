@@ -15,7 +15,6 @@ describe('PoliciesGuard', () => {
   const mockReflector = mockDeep<Reflector>();
   const mockAbilityFactory = mockDeep<AbilityFactory>();
 
-  // Mock más completo de MongoAbility
   const createMockAbility = (can: boolean) => {
     return {
       can: jest.fn().mockReturnValue(can),

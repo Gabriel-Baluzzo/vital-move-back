@@ -1,108 +1,100 @@
-import { ZonaMuscular as ZonaM } from '@prisma/client';
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
-import { Nivel as NivelP } from '@prisma/client';
-import { Nivel } from '../../src/nivel/entities/nivel.entity';
 import { NivelService } from '../../src/nivel/nivel.service';
+import { Nivel } from '../../src/nivel/entities/nivel.entity';
 import { CreateNivelDto } from '../../src/nivel/dto/create-nivel.dto';
 import { UpdateNivelDto } from '../../src/nivel/dto/update-nivel.dto';
+import { Nivel as NivelP } from '@prisma/client';
+import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 
-describe('ZonaMuscularService', () => {
+describe('NivelService', () => {
   let service: NivelService;
-  let nivelMock: {
-    create: jest.Mock;
-    findOrThrow: jest.Mock;
-    findMany: jest.Mock;
-    update: jest.Mock;
-    delete: jest.Mock;
-  };
+  let nivelMock: DeepMockProxy<Nivel>;
 
   beforeEach(async () => {
-    nivelMock = {
-      create: jest.fn(),
-      findOrThrow: jest.fn(),
-      findMany: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    };
-
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         NivelService,
         {
           provide: Nivel,
-          useValue: nivelMock,
+          useValue: mockDeep<Nivel>(),
         },
       ],
     }).compile();
 
     service = module.get<NivelService>(NivelService);
+    nivelMock = module.get(Nivel);
   });
 
-  it('should call create with the correct DTO', async () => {
+  it('debería crear un nivel con el DTO correcto', async () => {
     const dto: CreateNivelDto = {
       nombre: 'Principiante',
       numero_orden: 1,
     };
-    const expected = {
+    const esperado = {
       id: 1,
       nombre: 'Principiante',
       numero_orden: 1,
     } as NivelP;
 
-    nivelMock.create.mockResolvedValue(expected);
+    nivelMock.create.mockResolvedValue(esperado);
 
-    const result = await service.create(dto);
+    const resultado = await service.create(dto);
     expect(nivelMock.create).toHaveBeenCalledWith(dto);
-    expect(result).toEqual(expected);
+    expect(resultado).toEqual(esperado);
   });
 
-  it('should return all niveles', async () => {
-    const zonas = [
+  it('debería devolver todos los niveles', async () => {
+    const niveles = [
       { id: 1, nombre: 'Principiante', numero_orden: 1 },
     ] as NivelP[];
 
-    nivelMock.findMany.mockResolvedValue(zonas);
+    nivelMock.findMany.mockResolvedValue(niveles);
 
-    const result = await service.findAll();
+    const resultado = await service.findAll();
     expect(nivelMock.findMany).toHaveBeenCalled();
-    expect(result).toEqual(zonas);
+    expect(resultado).toEqual(niveles);
   });
 
-  it('should return one nivel by id', async () => {
-    const zona = { id: 1, nombre: 'Piernas' } as ZonaM;
+  it('debería devolver un nivel por ID', async () => {
+    const nivel = { id: 1, nombre: 'Principiante', numero_orden: 1 } as NivelP;
 
-    nivelMock.findOrThrow.mockResolvedValue(zona);
+    nivelMock.findOrThrow.mockResolvedValue(nivel);
 
-    const result = await service.findOne(1);
+    const resultado = await service.findOne(1);
     expect(nivelMock.findOrThrow).toHaveBeenCalledWith(1);
-    expect(result).toEqual(zona);
+    expect(resultado).toEqual(nivel);
   });
 
-  it('should update a nivel', async () => {
-    const updateDto: UpdateNivelDto = {
-      nombre: 'Principinte',
-      numero_orden: 1,
+  it('debería actualizar un nivel', async () => {
+    const dto: UpdateNivelDto = {
+      nombre: 'Intermedio',
+      numero_orden: 2,
     };
-    const updated = {
+    const actualizado = {
       id: 1,
       nombre: 'Intermedio',
       numero_orden: 2,
     } as NivelP;
 
-    nivelMock.update.mockResolvedValue(updated);
+    nivelMock.update.mockResolvedValue(actualizado);
 
-    const result = await service.update(1, updateDto);
-    expect(nivelMock.update).toHaveBeenCalledWith(1, updateDto);
-    expect(result).toEqual(updated);
+    const resultado = await service.update(1, dto);
+    expect(nivelMock.update).toHaveBeenCalledWith(1, dto);
+    expect(resultado).toEqual(actualizado);
   });
 
-  it('should remove a nivel', async () => {
-    const deleted = { id: 1, nombre: 'Principiante' } as NivelP;
+  it('debería eliminar un nivel', async () => {
+    const eliminado = {
+      id: 1,
+      nombre: 'Principiante',
+      numero_orden: 1,
+    } as NivelP;
 
-    nivelMock.delete.mockResolvedValue(deleted);
+    nivelMock.delete.mockResolvedValue(eliminado);
 
-    const result = await service.remove(1);
+    const resultado = await service.remove(1);
     expect(nivelMock.delete).toHaveBeenCalledWith(1);
-    expect(result).toEqual(deleted);
+    expect(resultado).toEqual(eliminado);
   });
 });

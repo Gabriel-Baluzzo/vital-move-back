@@ -1,107 +1,96 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+import { Test, TestingModule } from '@nestjs/testing';
 import { ZonaMuscularService } from '../../src/zona-muscular/zona-muscular.service';
 import { ZonaMuscular } from '../../src/zona-muscular/entities/zona-muscular.entity';
 import { CreateZonaMuscularDto } from '../../src/zona-muscular/dto/create-zona-muscular.dto';
 import { UpdateZonaMuscularDto } from '../../src/zona-muscular/dto/update-zona-muscular.dto';
 import { ZonaMuscular as ZonaM } from '@prisma/client';
-import { Test, TestingModule } from '@nestjs/testing';
+import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 
 describe('ZonaMuscularService', () => {
   let service: ZonaMuscularService;
-  let zonaMock: {
-    create: jest.Mock;
-    findOrThrow: jest.Mock;
-    findMany: jest.Mock;
-    update: jest.Mock;
-    delete: jest.Mock;
-  };
+  let zonaMock: DeepMockProxy<ZonaMuscular>;
 
   beforeEach(async () => {
-    zonaMock = {
-      create: jest.fn(),
-      findOrThrow: jest.fn(),
-      findMany: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-    };
-
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ZonaMuscularService,
         {
           provide: ZonaMuscular,
-          useValue: zonaMock,
+          useValue: mockDeep<ZonaMuscular>(),
         },
       ],
     }).compile();
 
     service = module.get<ZonaMuscularService>(ZonaMuscularService);
+    zonaMock = module.get(ZonaMuscular);
   });
 
-  it('should call create with the correct DTO', async () => {
+  it('debería crear una zona muscular con el DTO correcto', async () => {
     const dto: CreateZonaMuscularDto = {
       nombre: 'Pecho',
       descripcion: 'Ejercicios para pecho',
     };
-    const expected = {
+    const esperado = {
       id: 1,
       nombre: 'Pecho',
       descripcion: 'Ejercicios para pecho',
     } as ZonaM;
 
-    zonaMock.create.mockResolvedValue(expected);
+    zonaMock.create.mockResolvedValue(esperado);
 
-    const result = await service.create(dto);
+    const resultado = await service.create(dto);
     expect(zonaMock.create).toHaveBeenCalledWith(dto);
-    expect(result).toEqual(expected);
+    expect(resultado).toEqual(esperado);
   });
 
-  it('should return all zonas musculares', async () => {
+  it('debería devolver todas las zonas musculares', async () => {
     const zonas = [
       { id: 1, nombre: 'Espalda', descripcion: 'Ejercicios para espalda' },
     ] as ZonaM[];
 
     zonaMock.findMany.mockResolvedValue(zonas);
 
-    const result = await service.findAll();
+    const resultado = await service.findAll();
     expect(zonaMock.findMany).toHaveBeenCalled();
-    expect(result).toEqual(zonas);
+    expect(resultado).toEqual(zonas);
   });
 
-  it('should return one zona muscular by id', async () => {
+  it('debería devolver una zona muscular por id', async () => {
     const zona = { id: 1, nombre: 'Piernas' } as ZonaM;
 
     zonaMock.findOrThrow.mockResolvedValue(zona);
 
-    const result = await service.findOne(1);
+    const resultado = await service.findOne(1);
     expect(zonaMock.findOrThrow).toHaveBeenCalledWith(1);
-    expect(result).toEqual(zona);
+    expect(resultado).toEqual(zona);
   });
 
-  it('should update a zona muscular', async () => {
-    const updateDto: UpdateZonaMuscularDto = {
+  it('debería actualizar una zona muscular', async () => {
+    const dto: UpdateZonaMuscularDto = {
       nombre: 'Hombros',
       descripcion: 'Ejercicios para hombros',
     };
-    const updated = {
+    const actualizado = {
       id: 1,
       nombre: 'Pecho',
       descripcion: 'Ejercicios para hombros',
     } as ZonaM;
 
-    zonaMock.update.mockResolvedValue(updated);
+    zonaMock.update.mockResolvedValue(actualizado);
 
-    const result = await service.update(1, updateDto);
-    expect(zonaMock.update).toHaveBeenCalledWith(1, updateDto);
-    expect(result).toEqual(updated);
+    const resultado = await service.update(1, dto);
+    expect(zonaMock.update).toHaveBeenCalledWith(1, dto);
+    expect(resultado).toEqual(actualizado);
   });
 
-  it('should remove a zona muscular', async () => {
-    const deleted = { id: 1, nombre: 'Cuádriceps' } as ZonaM;
+  it('debería eliminar una zona muscular', async () => {
+    const eliminado = { id: 1, nombre: 'Cuádriceps' } as ZonaM;
 
-    zonaMock.delete.mockResolvedValue(deleted);
+    zonaMock.delete.mockResolvedValue(eliminado);
 
-    const result = await service.remove(1);
+    const resultado = await service.remove(1);
     expect(zonaMock.delete).toHaveBeenCalledWith(1);
-    expect(result).toEqual(deleted);
+    expect(resultado).toEqual(eliminado);
   });
 });
