@@ -12,13 +12,34 @@ import { Reflector } from '@nestjs/core';
 import { RequiredPermission } from './decorators/permissions.decorator';
 import { Perfil } from '@prisma/client';
 
+/**
+ * Guardia que verifica las políticas de permisos
+ * definidas mediante metadatos en controladores o métodos.
+ *
+ * Valida si el usuario autenticado posee los permisos requeridos
+ * para ejecutar la acción solicitada.
+ */
 @Injectable()
 export class PoliciesGuard implements CanActivate {
+  /**
+   * Crea una instancia del guardia de políticas.
+   *
+   * @param reflector Servicio para obtener metadatos de decoradores.
+   * @param abilityFactory Fábrica para crear habilidades basadas en el perfil del usuario.
+   */
   constructor(
     private reflector: Reflector,
     private abilityFactory: AbilityFactory,
   ) {}
 
+  /**
+   * Método que determina si la petición puede ser autorizada
+   * según las políticas definidas.
+   *
+   * @param context Contexto de ejecución que contiene la solicitud HTTP.
+   * @returns `true` si el usuario tiene permisos, lanza excepción si no los tiene.
+   * @throws ForbiddenException si el usuario no tiene permiso.
+   */
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const requiredPermissions =
       this.reflector.get<RequiredPermission[]>(
