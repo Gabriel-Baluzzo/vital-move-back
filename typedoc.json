@@ -1,0 +1,13 @@
+{
+    "entryPoints": [
+        "src"
+    ],
+    "entryPointStrategy": "expand",
+    "out": "docs",
+    "name": "VitalMove Backend API",
+    "theme": "default",
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "hideGenerator": true,
+    "tsconfig": "./tsconfig.json"
+}
