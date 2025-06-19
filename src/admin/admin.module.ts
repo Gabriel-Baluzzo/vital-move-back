@@ -15,6 +15,13 @@ import { Perfil } from 'src/perfil/entities/perfil.entity';
 import { Credencial } from 'src/credencial/entities/credencial.entity';
 import { PrismaModule } from 'prisma/prisma.module';
 
+/**
+ * Módulo administrador que agrupa los controladores y servicios
+ * relacionados con los perfiles y videos gestionados por el admin.
+ *
+ * Importa módulos de autenticación, control de acceso y acceso a base de datos.
+ * Provee los servicios y entidades necesarias para la gestión administrativa.
+ */
 @Module({
   imports: [CaslModule, AuthModule, PrismaModule],
   controllers: [AdminPerfilController, AdminVideoController],
