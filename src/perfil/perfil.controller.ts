@@ -13,16 +13,39 @@ import { JwtPayload } from '../../src/auth/jwt/jwt.payload';
 import { CurrentUser } from '../../src/auth/jwt/decorator/current-user.decorator';
 import { Perfil } from '@prisma/client';
 
+/**
+ * Controlador para gestionar el perfil del usuario autenticado.
+ *
+ * Aplica JwtAuthGuard para proteger las rutas y asegurar que solo
+ * usuarios autenticados accedan a ellas.
+ */
 @Controller('perfil')
 @UseGuards(JwtAuthGuard)
 export class PerfilController {
+  /**
+   * Constructor que inyecta el servicio de perfiles.
+   * @param perfilService Servicio para manejo de perfiles.
+   */
   constructor(private readonly perfilService: PerfilService) {}
 
+  /**
+   * Obtiene el perfil del usuario autenticado.
+   *
+   * @param user Información del usuario extraída del token JWT.
+   * @returns Perfil del usuario.
+   */
   @Get()
   async getProfile(@CurrentUser() user: JwtPayload): Promise<Perfil> {
     return this.perfilService.findOne(user.userId);
   }
 
+  /**
+   * Actualiza el perfil del usuario autenticado.
+   *
+   * @param user Información del usuario extraída del token JWT.
+   * @param data Datos para actualizar el perfil.
+   * @returns Perfil actualizado.
+   */
   @Patch()
   async update(
     @CurrentUser() user: JwtPayload,
@@ -31,6 +54,12 @@ export class PerfilController {
     return this.perfilService.update(user.userId, data);
   }
 
+  /**
+   * Elimina el perfil del usuario autenticado.
+   *
+   * @param user Información del usuario extraída del token JWT.
+   * @returns Perfil eliminado.
+   */
   @Delete()
   async remove(@CurrentUser() user: JwtPayload): Promise<Perfil> {
     return this.perfilService.remove(user.userId);
