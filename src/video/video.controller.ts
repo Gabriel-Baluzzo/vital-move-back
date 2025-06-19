@@ -6,11 +6,27 @@ import { CurrentUser } from '../../src/auth/jwt/decorator/current-user.decorator
 import { JwtPayload } from '../../src/auth/jwt/jwt.payload';
 import { Video } from '@prisma/client';
 
+/**
+ * Controlador para manejar solicitudes relacionadas con videos.
+ *
+ * Protegido con JwtAuthGuard para asegurar que solo usuarios autenticados puedan acceder.
+ */
 @Controller('video')
 @UseGuards(JwtAuthGuard)
 export class VideoController {
+  /**
+   * Constructor que inyecta el servicio de videos.
+   * @param videoService Servicio que maneja la lógica de videos.
+   */
   constructor(private readonly videoService: VideoService) {}
 
+  /**
+   * Obtiene una lista de videos filtrados según parámetros y nivel del usuario.
+   *
+   * @param user Información del usuario extraída del token JWT.
+   * @param query Parámetros opcionales para filtrar la búsqueda de videos.
+   * @returns Lista de videos que cumplen con los filtros y nivel del usuario.
+   */
   @Get()
   async findQuery(
     @CurrentUser() user: JwtPayload,

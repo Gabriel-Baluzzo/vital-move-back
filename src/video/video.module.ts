@@ -9,6 +9,13 @@ import { Video } from './entities/video.entity';
 import { NivelService } from 'src/nivel/nivel.service';
 import { Nivel } from 'src/nivel/entities/nivel.entity';
 
+/**
+ * Módulo que agrupa todo lo relacionado con el manejo de videos.
+ *
+ * Importa los módulos de Prisma y autenticación,
+ * declara controladores y proveedores relacionados,
+ * y exporta el servicio de videos para ser usado en otros módulos.
+ */
 @Module({
   imports: [PrismaModule, AuthModule],
   controllers: [VideoController],
