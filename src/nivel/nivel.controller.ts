@@ -85,6 +85,7 @@ export class NivelController {
    */
   @ApiOperation({ summary: 'Editar nivel' })
   @ApiResponse({ status: 200, description: 'Edita el nivel.' })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
   @ApiResponse({ status: 404, description: 'Not found.' })
   @Patch(':id')
   @Permission(Action.Update, 'Nivel')

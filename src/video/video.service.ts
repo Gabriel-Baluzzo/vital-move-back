@@ -44,7 +44,7 @@ export class VideoService {
   /**
    * Busca videos según filtros y nivel del usuario.
    *
-   * Si el nivel solicitado es mayor al nivel del usuario, lanza excepción e iguala la solicitud al nivel de usuario.
+   * Si el nivel solicitado es mayor al nivel del usuario, lanza excepción.
    *
    * @param nivelUsuario Nivel actual del usuario.
    * @param query Filtros para la búsqueda.

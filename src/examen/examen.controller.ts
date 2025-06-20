@@ -30,6 +30,7 @@ export class ExamenController {
    */
   @ApiOperation({ summary: 'Ver si pasaron 30 dias para volver a evaluar' })
   @ApiResponse({ status: 200, description: 'Puede tomar el examen.' })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
   @Get()
   async validarFecha(@CurrentUser() user: JwtPayload): Promise<void> {
     await this.examenService.validarFechaExamen(user.userId);
@@ -40,6 +41,9 @@ export class ExamenController {
    *
    * @param user Usuario autenticado extraído del token JWT.
    */
+  @ApiOperation({ summary: 'Ver si el usuario es nuevo' })
+  @ApiResponse({ status: 200, description: 'Usuario nuevo.' })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
   @Get('nuevo')
   async validarNuevo(@CurrentUser() user: JwtPayload): Promise<void> {
     await this.examenService.validarNuevoUsuario(user.userId);
@@ -52,6 +56,9 @@ export class ExamenController {
    * @param user Usuario autenticado extraído del token JWT.
    * @returns Objeto con el perfil actualizado y un nuevo token de acceso.
    */
+  @ApiOperation({ summary: 'Tomar examen' })
+  @ApiResponse({ status: 200, description: 'Actualiza el nivel.' })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
   @Post()
   async examen(
     @Body() resultado: ResultadoExamenDto,

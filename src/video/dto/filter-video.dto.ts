@@ -2,7 +2,7 @@ import { IsOptional, IsInt, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateVideoDto } from './create-video.dto';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 /**
  * DTO para filtrar videos.
@@ -14,7 +14,7 @@ export class FilterVideoDto extends PartialType(CreateVideoDto) {
   /**
    * ID del nivel para filtrar videos (opcional).
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @Type(() => Number)
   @IsInt()
@@ -23,7 +23,7 @@ export class FilterVideoDto extends PartialType(CreateVideoDto) {
   /**
    * ID de la zona muscular para filtrar videos (opcional).
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @Type(() => Number)
   @IsInt()
@@ -32,7 +32,7 @@ export class FilterVideoDto extends PartialType(CreateVideoDto) {
   /**
    * Nombre del video para filtrar (opcional).
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   nombre?: string;
@@ -40,7 +40,7 @@ export class FilterVideoDto extends PartialType(CreateVideoDto) {
   /**
    * Descripción del video para filtrar (opcional).
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   descripcion?: string;
