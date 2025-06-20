@@ -14,6 +14,7 @@ import { PoliciesGuard } from '../../src/casl/policies.guard';
 import { UpdatePerfilDto } from '../../src/perfil/dto/update-perfil.dto';
 import { PerfilService } from '../../src/perfil/perfil.service';
 import { Perfil } from '@prisma/client';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 /**
  * Controlador de perfiles de usuario para uso de admins.
@@ -23,6 +24,7 @@ import { Perfil } from '@prisma/client';
  *
  * Ruta base: `/admin/perfil`
  */
+@ApiBearerAuth('jwt-auth')
 @Controller('admin/perfil')
 @UseGuards(JwtAuthGuard, PoliciesGuard)
 export class AdminPerfilController {
@@ -38,6 +40,8 @@ export class AdminPerfilController {
    *
    * @returns Lista de perfiles registrados.
    */
+  @ApiOperation({ summary: 'Obtener perfiles' })
+  @ApiResponse({ status: 200, description: 'Devuelve array de perfiles.' })
   @Get()
   @Permission(Action.Read, 'Perfil')
   async findAll(): Promise<Perfil[]> {
@@ -50,6 +54,9 @@ export class AdminPerfilController {
    * @param id Identificador único del perfil.
    * @returns Perfil correspondiente al ID proporcionado.
    */
+  @ApiOperation({ summary: 'Obtener perfil' })
+  @ApiResponse({ status: 200, description: 'Devuelve el perfil.' })
+  @ApiResponse({ status: 404, description: 'Not found.' })
   @Get(':id')
   @Permission(Action.Read, 'Perfil')
   async findOne(@Param('id') id: number): Promise<Perfil> {
@@ -63,6 +70,10 @@ export class AdminPerfilController {
    * @param updatePerfilDto Datos actualizados del perfil.
    * @returns Perfil actualizado.
    */
+  @ApiOperation({ summary: 'Editar perfil' })
+  @ApiResponse({ status: 200, description: 'Edita el perfil.' })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  @ApiResponse({ status: 404, description: 'Not found.' })
   @Patch(':id')
   @Permission(Action.Update, 'Perfil')
   async update(
@@ -78,6 +89,9 @@ export class AdminPerfilController {
    * @param id Identificador único del perfil.
    * @returns Perfil eliminado.
    */
+  @ApiOperation({ summary: 'Eliminar perfil' })
+  @ApiResponse({ status: 200, description: 'Elimina el perfil.' })
+  @ApiResponse({ status: 404, description: 'Not found.' })
   @Delete(':id')
   @Permission(Action.Delete, 'Perfil')
   async remove(@Param('id') id: number): Promise<Perfil> {
