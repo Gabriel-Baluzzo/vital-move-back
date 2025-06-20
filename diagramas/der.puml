@@ -1,0 +1,52 @@
+@startuml DER
+entity Credencial {
+  *id : Int <<PK>>
+  email : String <<U>>
+  password : String
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity Perfil {
+  *id : Int <<PK>>
+  credencialesId : Int <<U>>
+  nombre : String
+  rol : String
+  fecha_nacimiento : DateTime
+  nivel_actual_id : Int <<FK>>
+  fecha_ultima_evaluacion : DateTime
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity Nivel {
+  *id : Int <<PK>>
+  nombre : String
+  numero_orden : Int <<U>>
+}
+
+entity Video {
+  *id : Int <<PK>>
+  nombre : String
+  descripcion : String
+  url_video : String
+  url_miniatura : String
+  zona_muscular_id : Int <<FK>>
+  nivel_id : Int <<FK>>
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+entity ZonaMuscular {
+  *id : Int <<PK>>
+  nombre : String <<U>>
+  descripcion : String
+  createdAt : DateTime
+  updatedAt : DateTime
+}
+
+Credencial ||--|| Perfil
+Perfil }o--|| Nivel
+Nivel ||--o{ Video 
+ZonaMuscular ||--o{ Video
+@enduml

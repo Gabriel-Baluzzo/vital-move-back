@@ -1,0 +1,12 @@
+@startuml visionGeneral
+left to right direction
+
+component "VitalMove Web" as Frontend
+component "API Backend" as Backend
+database "Base de datos" as Database
+
+Frontend --> Backend
+Backend --> Database
+@enduml
+
+
