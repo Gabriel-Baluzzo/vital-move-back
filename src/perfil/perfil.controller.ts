@@ -12,6 +12,7 @@ import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
 import { JwtPayload } from '../../src/auth/jwt/jwt.payload';
 import { CurrentUser } from '../../src/auth/jwt/decorator/current-user.decorator';
 import { Perfil } from '@prisma/client';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 /**
  * Controlador para gestionar el perfil del usuario autenticado.
@@ -19,6 +20,7 @@ import { Perfil } from '@prisma/client';
  * Aplica JwtAuthGuard para proteger las rutas y asegurar que solo
  * usuarios autenticados accedan a ellas.
  */
+@ApiBearerAuth('jwt-auth')
 @Controller('perfil')
 @UseGuards(JwtAuthGuard)
 export class PerfilController {
@@ -34,6 +36,8 @@ export class PerfilController {
    * @param user Información del usuario extraída del token JWT.
    * @returns Perfil del usuario.
    */
+  @ApiOperation({ summary: 'Obtener Perfil' })
+  @ApiResponse({ status: 200, description: 'Devuelve el Perfil.' })
   @Get()
   async getProfile(@CurrentUser() user: JwtPayload): Promise<Perfil> {
     return this.perfilService.findOne(user.userId);
@@ -46,6 +50,9 @@ export class PerfilController {
    * @param data Datos para actualizar el perfil.
    * @returns Perfil actualizado.
    */
+  @ApiOperation({ summary: 'Actualiza Perfil' })
+  @ApiResponse({ status: 200, description: 'Actualiza con exito.' })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
   @Patch()
   async update(
     @CurrentUser() user: JwtPayload,
@@ -60,6 +67,8 @@ export class PerfilController {
    * @param user Información del usuario extraída del token JWT.
    * @returns Perfil eliminado.
    */
+  @ApiOperation({ summary: 'Elimina el Perfil' })
+  @ApiResponse({ status: 200, description: 'Elimina con exito.' })
   @Delete()
   async remove(@CurrentUser() user: JwtPayload): Promise<Perfil> {
     return this.perfilService.remove(user.userId);

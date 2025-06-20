@@ -5,12 +5,14 @@ import { CurrentUser } from '../../src/auth/jwt/decorator/current-user.decorator
 import { JwtPayload } from '../../src/auth/jwt/jwt.payload';
 import { JwtAuthGuard } from '../../src/auth/jwt/jwt.guard';
 import { Perfil } from '@prisma/client';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 /**
  * Controlador encargado de manejar las rutas relacionadas con el examen.
  *
  * Protegido por JWT para asegurar que solo usuarios autenticados accedan.
  */
+@ApiBearerAuth('jwt-auth')
 @Controller('examen')
 @UseGuards(JwtAuthGuard)
 export class ExamenController {
@@ -26,6 +28,8 @@ export class ExamenController {
    *
    * @param user Usuario autenticado extraído del token JWT.
    */
+  @ApiOperation({ summary: 'Ver si pasaron 30 dias para volver a evaluar' })
+  @ApiResponse({ status: 200, description: 'Puede tomar el examen.' })
   @Get()
   async validarFecha(@CurrentUser() user: JwtPayload): Promise<void> {
     await this.examenService.validarFechaExamen(user.userId);

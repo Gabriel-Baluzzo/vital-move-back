@@ -35,6 +35,7 @@ export class AuthController {
    */
   @ApiOperation({ summary: 'Registro de usuario' })
   @ApiResponse({ status: 201, description: 'Se registra con exito.' })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
   @ApiResponse({ status: 409, description: 'El usuario ya existe.' })
   @Post('register')
   async register(@Body() dto: AuthDto): Promise<{ access_token: string }> {
