@@ -7,6 +7,26 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api/v1');
   const config = new DocumentBuilder()
+    .addGlobalResponse(
+      {
+        status: 401,
+        description: 'Unauthorized',
+      },
+      {
+        status: 500,
+        description: 'Error interno del servidor',
+      },
+    )
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        in: 'header',
+      },
+      'jwt-auth',
+    )
     .setTitle('VitalMove')
     .setDescription('Descripcion de la API VitalMove')
     .setVersion('1.0')
