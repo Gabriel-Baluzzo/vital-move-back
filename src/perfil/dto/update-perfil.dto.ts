@@ -3,7 +3,7 @@ import { CreatePerfilDto } from './create-perfil.dto';
 import { IsDate, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { UpdateCredencialDto } from '../../../src/credencial/dto/update-credencial.dto';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 /**
  * DTO para la actualización parcial de un perfil de usuario.
@@ -15,7 +15,7 @@ export class UpdatePerfilDto extends PartialType(CreatePerfilDto) {
   /**
    * Nombre del usuario (opcional).
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsString()
   @IsOptional()
   nombre?: string;
@@ -23,7 +23,7 @@ export class UpdatePerfilDto extends PartialType(CreatePerfilDto) {
   /**
    * Fecha de nacimiento del usuario (opcional).
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @Type(() => Date)
   @IsOptional()
   @IsDate()
@@ -32,7 +32,7 @@ export class UpdatePerfilDto extends PartialType(CreatePerfilDto) {
   /**
    * Datos para actualizar las credenciales asociadas (opcional).
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @ValidateNested()
   @Type(() => UpdateCredencialDto)

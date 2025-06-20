@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateCredencialDto } from './create-credencial.dto';
 import { IsEmail, IsOptional, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 /**
  * DTO utilizado para actualizar credenciales de usuario.
@@ -14,7 +14,7 @@ export class UpdateCredencialDto extends PartialType(CreateCredencialDto) {
    * Nuevo correo electrónico del usuario.
    * Debe tener formato de email válido.
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   @IsEmail()
@@ -23,7 +23,7 @@ export class UpdateCredencialDto extends PartialType(CreateCredencialDto) {
   /**
    * Nueva contraseña del usuario.
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   password?: string;

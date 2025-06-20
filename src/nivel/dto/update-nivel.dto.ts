@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateNivelDto } from './create-nivel.dto';
 import { IsInt, IsOptional, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiPropertyOptional } from '@nestjs/swagger';
 
 /**
  * DTO para la actualización parcial de un nivel.
@@ -13,7 +13,7 @@ export class UpdateNivelDto extends PartialType(CreateNivelDto) {
   /**
    * Nombre descriptivo del nivel (opcional).
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   nombre?: string;
@@ -21,7 +21,7 @@ export class UpdateNivelDto extends PartialType(CreateNivelDto) {
   /**
    * Número que representa el orden del nivel (opcional).
    */
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @IsInt()
   numero_orden?: number;
