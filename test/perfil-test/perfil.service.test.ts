@@ -5,8 +5,8 @@ import { Perfil } from '../../src/perfil/entities/perfil.entity';
 import { CredencialService } from '../../src/credencial/credencial.service';
 import { mockDeep, mockReset, DeepMockProxy } from 'jest-mock-extended';
 import { Perfil as PerfilP } from '@prisma/client';
-import { NotFoundException } from '@nestjs/common';
-import { UpdatePerfilDto } from 'src/perfil/dto/update-perfil.dto';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { UpdatePerfilDto } from '../../src/perfil/dto/update-perfil.dto';
 
 describe('PerfilService', () => {
   let service: PerfilService;
@@ -153,6 +153,13 @@ describe('PerfilService', () => {
       perfilMock.findOrThrow.mockRejectedValueOnce(new NotFoundException());
 
       await expect(service.remove(999)).rejects.toThrow(NotFoundException);
+    });
+
+    it('debería lanzar excepción si el perfil es de administrador', async () => {
+      mockPerfil.rol = 'admin';
+      perfilMock.findOrThrow.mockResolvedValueOnce(mockPerfil);
+
+      await expect(service.remove(1)).rejects.toThrow(BadRequestException);
     });
   });
 });

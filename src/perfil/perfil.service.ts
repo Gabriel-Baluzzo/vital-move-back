@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdatePerfilDto } from './dto/update-perfil.dto';
 import { Perfil } from './entities/perfil.entity';
 import { Perfil as PerfilP } from '@prisma/client';
@@ -72,7 +72,10 @@ export class PerfilService {
    * @returns Perfil eliminado.
    */
   async remove(id: number): Promise<PerfilP> {
-    await this.perfil.findOrThrow(id);
+    const perfil = await this.perfil.findOrThrow(id);
+    if (perfil.rol === 'admin') {
+      throw new BadRequestException('No hagas eso!');
+    }
     return this.perfil.delete(id);
   }
 }
